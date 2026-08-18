@@ -12,9 +12,10 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
   let nokDokValue = 0, openDokValue = 0;
 
   const initData = () => ({ mataram: { count: 0, nilaiDPP: 0 }, kupang: { count: 0, nilaiDPP: 0 } });
+  
   const availableMonths = [
-    "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", 
-    "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
+    "JANUARI '26", "FEBRUARI '26", "MARET '26", "APRIL '26", "MEI '26", "JUNI '26", 
+    "JULI '26", "AGUSTUS '26", "SEPTEMBER '26", "OKTOBER '26", "NOVEMBER '26", "DESEMBER '26"
   ];
   const availableYears = new Set();
 
@@ -90,75 +91,25 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
       branchKey = "mataram";
     } else if (branchAsli === "KPG" || branchAsli.includes("KUPANG") || branchAsli === "NTT") {
       branchKey = "kupang";
-    } else {
-      return; 
     }
 
-    // 2. Ekstraksi Tahun
+    // 2. Ekstraksi Tahun Umum
     let tahunAsli = String(getVal(item, ["TAHUN"]) || "").trim();
-    
-    // 3. Ekstraksi Bulan Umum (Untuk metrik/chart lain)
-    let bulanStr = "";
-    const rawBulan = String(getVal(item, ["PERIODE", "BULAN", "BULAN TAGIHAN"]) || "").trim().toUpperCase();
-    const rawTgl = String(getVal(item, ["TANGGAL", "DATE", "TGL TAGIHAN"]) || "").trim();
-
-    if (rawBulan) {
-      if (rawBulan.includes("JAN")) bulanStr = "JANUARI";
-      else if (rawBulan.includes("FEB")) bulanStr = "FEBRUARI";
-      else if (rawBulan.includes("MAR")) bulanStr = "MARET";
-      else if (rawBulan.includes("APR")) bulanStr = "APRIL";
-      else if (rawBulan.includes("MEI") || rawBulan.includes("MAY")) bulanStr = "MEI";
-      else if (rawBulan.includes("JUN")) bulanStr = "JUNI";
-      else if (rawBulan.includes("JUL")) bulanStr = "JULI";
-      else if (rawBulan.includes("AGU") || rawBulan.includes("AUG")) bulanStr = "AGUSTUS";
-      else if (rawBulan.includes("SEP")) bulanStr = "SEPTEMBER";
-      else if (rawBulan.includes("OKT") || rawBulan.includes("OCT")) bulanStr = "OKTOBER";
-      else if (rawBulan.includes("NOV")) bulanStr = "NOVEMBER";
-      else if (rawBulan.includes("DES") || rawBulan.includes("DEC")) bulanStr = "DESEMBER";
-      else if (!isNaN(rawBulan)) {
-        const mNum = parseInt(rawBulan, 10);
-        if (mNum >= 1 && mNum <= 12) bulanStr = availableMonths[mNum - 1];
-      }
-    }
-
-    if (!bulanStr && rawTgl) {
-      const parts = rawTgl.split(/[-/]/);
-      if (parts.length === 3) {
-        let mIdx = -1;
-        if (parts[0].length === 4) {
-          mIdx = parseInt(parts[1], 10) - 1;
-          if (!tahunAsli) tahunAsli = parts[0];
-        } else {
-          mIdx = parseInt(parts[1], 10) - 1;
-          if (!tahunAsli && parts[2].length === 4) tahunAsli = parts[2];
-        }
-        if (mIdx >= 0 && mIdx <= 11) bulanStr = availableMonths[mIdx];
-      }
-    }
-
-    if (!bulanStr) bulanStr = "TIDAK ADA BULAN"; 
     if (tahunAsli && tahunAsli !== "undefined") availableYears.add(tahunAsli);
 
-    // GLOBAL FILTER
-    if (selectedBranch !== "ALL" && selectedBranch !== branchKey.toUpperCase()) return;
-    if (selectedYear !== "ALL" && tahunAsli !== selectedYear) return;
-
-    // 4. EKSTRAKSI NILAI DPP
+    // 3. EKSTRAKSI NILAI DPP
     let nilaiRaw = getVal(item, ["NILAI DPP"]);
     if (nilaiRaw === undefined || nilaiRaw === null || String(nilaiRaw).trim() === "") {
       nilaiRaw = 0; 
     }
-
     const nilaiDPP = typeof nilaiRaw === "number" 
       ? nilaiRaw 
       : parseFloat(String(nilaiRaw).replace(/\./g, "").replace(/,/g, ".")) || 0;
     
-    // 5. EKSTRAKSI STATUS BERKAS, JENIS PEKERJAAN & MITRA
-    const statusBerkas = String(getVal(item, ["STATUS BERKAS", "STATUS BERKAS 1", "STATUS TAGIHAN", "STATUS BEKE", "STATUS BEI"]) || "TIDAK ADA STATUS").trim().toUpperCase();
+    // 4. EKSTRAKSI JENIS PEKERJAAN
     const jenisPekerjaan = String(getVal(item, ["JENIS PEKERJAAN", "JENIS PEKE"]) || "").trim().toUpperCase();
-    const namaMitra = String(getVal(item, ["NAMA MITRA", "MITRA", "VENDOR"]) || "TIDAK ADA NAMA MITRA").trim().toUpperCase();
 
-    // --- KHUSUS PLAN GR: EKSTRAKSI DARI KOLOM BULAN PLAN GR (Kolom Y) ---
+    // 5. EKSTRAKSI BULAN PLAN GR (Kolom Y)
     const keys = Object.keys(item);
     const bpgKey = keys.find(k => {
       const upperK = k.toUpperCase();
@@ -169,19 +120,40 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
     let bulanPlanGrStr = "TIDAK ADA BULAN";
     
     if (rawBulanPlanGr && rawBulanPlanGr !== "-" && !rawBulanPlanGr.includes("KOSONG")) {
-      if (rawBulanPlanGr.includes("JAN")) bulanPlanGrStr = "JANUARI";
-      else if (rawBulanPlanGr.includes("FEB")) bulanPlanGrStr = "FEBRUARI";
-      else if (rawBulanPlanGr.includes("MAR")) bulanPlanGrStr = "MARET";
-      else if (rawBulanPlanGr.includes("APR")) bulanPlanGrStr = "APRIL";
-      else if (rawBulanPlanGr.includes("MEI") || rawBulanPlanGr.includes("MAY")) bulanPlanGrStr = "MEI";
-      else if (rawBulanPlanGr.includes("JUN")) bulanPlanGrStr = "JUNI";
-      else if (rawBulanPlanGr.includes("JUL")) bulanPlanGrStr = "JULI";
-      else if (rawBulanPlanGr.includes("AGU") || rawBulanPlanGr.includes("AUG")) bulanPlanGrStr = "AGUSTUS";
-      else if (rawBulanPlanGr.includes("SEP")) bulanPlanGrStr = "SEPTEMBER";
-      else if (rawBulanPlanGr.includes("OKT") || rawBulanPlanGr.includes("OCT")) bulanPlanGrStr = "OKTOBER";
-      else if (rawBulanPlanGr.includes("NOV")) bulanPlanGrStr = "NOVEMBER";
-      else if (rawBulanPlanGr.includes("DES") || rawBulanPlanGr.includes("DEC")) bulanPlanGrStr = "DESEMBER";
+      if (rawBulanPlanGr.includes("JAN") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "JANUARI '26";
+      else if (rawBulanPlanGr.includes("FEB") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "FEBRUARI '26";
+      else if (rawBulanPlanGr.includes("MAR") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "MARET '26";
+      else if (rawBulanPlanGr.includes("APR") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "APRIL '26";
+      else if ((rawBulanPlanGr.includes("MEI") || rawBulanPlanGr.includes("MAY")) && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "MEI '26";
+      else if (rawBulanPlanGr.includes("JUN") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "JUNI '26";
+      else if (rawBulanPlanGr.includes("JUL") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "JULI '26";
+      else if ((rawBulanPlanGr.includes("AGU") || rawBulanPlanGr.includes("AUG")) && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "AGUSTUS '26";
+      else if (rawBulanPlanGr.includes("SEP") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "SEPTEMBER '26";
+      else if ((rawBulanPlanGr.includes("OKT") || rawBulanPlanGr.includes("OCT")) && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "OKTOBER '26";
+      else if (rawBulanPlanGr.includes("NOV") && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "NOVEMBER '26";
+      else if ((rawBulanPlanGr.includes("DES") || rawBulanPlanGr.includes("DEC")) && rawBulanPlanGr.includes("26")) bulanPlanGrStr = "DESEMBER '26";
     }
+
+    // --- LOGIKA UTAMA PLAN GR ---
+    const jpMap = jenisPekerjaan || "TIDAK ADA JENIS PEKERJAAN";
+    if (!planGrMap[jpMap]) planGrMap[jpMap] = initPlanGrData();
+    
+    if (planGrMap[jpMap][bulanPlanGrStr] && branchKey) {
+      if (selectedBranch === "ALL" || selectedBranch === branchKey.toUpperCase()) {
+        planGrMap[jpMap][bulanPlanGrStr][branchKey].count++;
+        planGrMap[jpMap][bulanPlanGrStr][branchKey].nilaiDPP += nilaiDPP;
+      }
+    }
+
+    // ==========================================================
+    // FILTER GLOBAL (DIPERBAIKI AGAR TIDAK MENENDANG DATA KOSONG)
+    // ==========================================================
+    if (selectedBranch !== "ALL" && branchKey !== "" && selectedBranch !== branchKey.toUpperCase()) return;
+    if (selectedYear !== "ALL" && tahunAsli !== "" && tahunAsli !== "undefined" && tahunAsli !== selectedYear) return;
+
+    // 6. EKSTRAKSI STATUS BERKAS & MITRA UNTUK TABEL LAINNYA
+    const statusBerkas = String(getVal(item, ["STATUS BERKAS", "STATUS BERKAS 1", "STATUS TAGIHAN", "STATUS BEKE", "STATUS BEI"]) || "TIDAK ADA STATUS").trim().toUpperCase();
+    const namaMitra = String(getVal(item, ["NAMA MITRA", "MITRA", "VENDOR"]) || "TIDAK ADA NAMA MITRA").trim().toUpperCase();
 
     totalCount++;
     totalValue += nilaiDPP;
@@ -205,36 +177,29 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
       openDokValue += nilaiDPP;
     }
 
-    // MAPPING MITRA
-    if (!mitraMap[namaMitra]) mitraMap[namaMitra] = {};
-    if (!mitraMap[namaMitra][statusBerkas]) mitraMap[namaMitra][statusBerkas] = { count: 0, nilaiDPP: 0 };
-    mitraMap[namaMitra][statusBerkas].count++;
-    mitraMap[namaMitra][statusBerkas].nilaiDPP += nilaiDPP;
+    if (branchKey) {
+        // MAPPING MITRA
+        if (!mitraMap[namaMitra]) mitraMap[namaMitra] = {};
+        if (!mitraMap[namaMitra][statusBerkas]) mitraMap[namaMitra][statusBerkas] = { count: 0, nilaiDPP: 0 };
+        mitraMap[namaMitra][statusBerkas].count++;
+        mitraMap[namaMitra][statusBerkas].nilaiDPP += nilaiDPP;
 
-    // --- MAPPING PLAN GR KHUSUS BERDASARKAN BULAN PLAN GR (Kolom Y) ---
-    if (jenisPekerjaan) {
-      if (!planGrMap[jenisPekerjaan]) planGrMap[jenisPekerjaan] = initPlanGrData();
-      if (planGrMap[jenisPekerjaan][bulanPlanGrStr]) {
-        planGrMap[jenisPekerjaan][bulanPlanGrStr][branchKey].count++;
-        planGrMap[jenisPekerjaan][bulanPlanGrStr][branchKey].nilaiDPP += nilaiDPP;
-      }
-    }
-
-    // MAPPING TABEL DOKUMEN & PRIORITAS
-    const matchKey = (mapObj) => {
-      for (let key in mapObj) {
-        if (statusBerkas === key || statusBerkas.includes(key)) {
-          mapObj[key][branchKey].count++;
-          mapObj[key][branchKey].nilaiDPP += nilaiDPP;
-          break;
+        // MAPPING TABEL DOKUMEN & PRIORITAS
+        const matchKey = (mapObj) => {
+        for (let key in mapObj) {
+            if (statusBerkas === key || statusBerkas.includes(key)) {
+            mapObj[key][branchKey].count++;
+            mapObj[key][branchKey].nilaiDPP += nilaiDPP;
+            break;
+            }
         }
-      }
-    };
+        };
 
-    matchKey(docBranchMap);
-    matchKey(docAreaMap);
-    matchKey(prio1Map);
-    matchKey(prio2Map);
+        matchKey(docBranchMap);
+        matchKey(docAreaMap);
+        matchKey(prio1Map);
+        matchKey(prio2Map);
+    }
   });
 
   return {

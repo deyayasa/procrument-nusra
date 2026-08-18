@@ -12,9 +12,10 @@ const Dashboard = () => {
   const metrics = summary?.metrics || {};
   const tables = summary?.tables || {};
   const availableYears = summary?.availableYears || [];
+  
   const availableMonths = [
-    "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", 
-    "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
+    "JANUARI '26", "FEBRUARI '26", "MARET '26", "APRIL '26", "MEI '26", "JUNI '26", 
+    "JULI '26", "AGUSTUS '26", "SEPTEMBER '26", "OKTOBER '26", "NOVEMBER '26", "DESEMBER '26"
   ];
 
   const {
@@ -123,6 +124,89 @@ const Dashboard = () => {
   const docArea = renderDynamicTableRows(tables.docAreaMap || {});
   const prio1 = renderDynamicTableRows(tables.prio1Map || {});
   const prio2 = renderDynamicTableRows(tables.prio2Map || {});
+
+  // ==========================================
+  // KALKULASI TABEL NAMA MITRA MATRIX (COUNT & NILAI DPP)
+  // ==========================================
+  const mitraMapData = tables.mitraMap || {};
+  const mitraNames = Object.keys(mitraMapData).filter(m => m !== "TIDAK ADA NAMA MITRA" && m !== "").sort();
+
+  const mitraColumns = [
+    'PEKERJAAN OGP', 'OGP REKON', 'PEMBERKASAN MITRA',
+    'VERIFIKASI PROC BRANCH', 'REVISI PROC BRANCH', 'SIRKULER TTD BRANCH',
+    'VERIFIKASI PROC REG', 'REVISI PROC REG', 'SIRKULER TTD REG',
+    'VERIFIKASI PROC AREA', 'REVISI PROC AREA', 'SIRKULER TTD AREA',
+    'VERIFIKASI FINANCE AREA', 'REVISI FINANCE AREA', 'PROSES FINANCE HO',
+    'CASH BANK', 'CANCEL'
+  ];
+
+  // 1. HITUNGAN UNTUK TABEL JML BERKAS (COUNT)
+  let colCountsMitra = new Array(mitraColumns.length).fill(0);
+  let allGrandCountMitra = 0;
+
+  const mitraRowsCountHTML = mitraNames.map((mitra) => {
+    const rowData = mitraMapData[mitra];
+    let rowCount = 0;
+
+    const colsHtml = mitraColumns.map((col, idx) => {
+      const exactKey = Object.keys(rowData).find(k => k === col || k.includes(col));
+      const cellValue = exactKey ? rowData[exactKey].count : 0;
+      rowCount += cellValue;
+      colCountsMitra[idx] += cellValue;
+
+      return (
+        <td key={col} className="py-1.5 px-2 text-center border border-gray-400">
+          {cellValue > 0 ? formatNumberDot(cellValue) : ''}
+        </td>
+      );
+    });
+
+    allGrandCountMitra += rowCount;
+
+    return (
+      <tr key={`count-${mitra}`} className="border-b border-gray-400 hover:bg-gray-100 text-[9px] text-black bg-white whitespace-nowrap">
+        <td className="py-1.5 px-3 border border-gray-400 font-bold uppercase sticky left-0 bg-white shadow-[2px_0_5px_-2px_rgba(0,0,0,0.3)] z-10">{mitra}</td>
+        {colsHtml}
+        <td className="py-1.5 px-2 text-center border border-gray-400 font-black bg-gray-100 text-[#04235c] sticky right-0 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.3)] z-10">
+          {rowCount > 0 ? formatNumberDot(rowCount) : ''}
+        </td>
+      </tr>
+    );
+  });
+
+  // 2. HITUNGAN UNTUK TABEL NILAI DPP
+  let colTotalsMitra = new Array(mitraColumns.length).fill(0);
+  let allGrandTotalMitra = 0;
+
+  const mitraRowsValueHTML = mitraNames.map((mitra) => {
+    const rowData = mitraMapData[mitra];
+    let rowTotal = 0;
+
+    const colsHtml = mitraColumns.map((col, idx) => {
+      const exactKey = Object.keys(rowData).find(k => k === col || k.includes(col));
+      const cellValue = exactKey ? rowData[exactKey].nilaiDPP : 0;
+      rowTotal += cellValue;
+      colTotalsMitra[idx] += cellValue;
+
+      return (
+        <td key={col} className="py-1.5 px-2 text-right border border-gray-400">
+          {cellValue > 0 ? formatNumberDot(cellValue) : ''}
+        </td>
+      );
+    });
+
+    allGrandTotalMitra += rowTotal;
+
+    return (
+      <tr key={`val-${mitra}`} className="border-b border-gray-400 hover:bg-gray-100 text-[9px] text-black bg-white whitespace-nowrap">
+        <td className="py-1.5 px-3 border border-gray-400 font-bold uppercase sticky left-0 bg-white shadow-[2px_0_5px_-2px_rgba(0,0,0,0.3)] z-10">{mitra}</td>
+        {colsHtml}
+        <td className="py-1.5 px-2 text-right border border-gray-400 font-black bg-gray-100 text-[#04235c] sticky right-0 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.3)] z-10">
+          {rowTotal > 0 ? formatNumberDot(rowTotal) : ''}
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <div className="bg-[#f4f7fb] min-h-screen p-6 font-sans">
@@ -341,7 +425,7 @@ const Dashboard = () => {
       </div>
 
       {/* TABEL PLAN GR PALING BAWAH */}
-      <div className="bg-white shadow-sm border border-gray-400 overflow-hidden">
+      <div className="bg-white shadow-sm border border-gray-400 overflow-hidden mb-6">
         <div className="bg-[#fff000] px-4 py-2 font-black text-black text-[14px] border-b border-gray-400 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <span>PLAN GR NUSRA 2026</span>
           <div className="flex items-center gap-2">
@@ -392,6 +476,83 @@ const Dashboard = () => {
           </table>
         </div>
       </div>
+
+      {/* 1. TABEL MATRIX - JUMLAH BERKAS (COUNT) */}
+      <div className="bg-white shadow-sm border border-gray-400 overflow-hidden mb-6">
+        <div className="bg-[#04235c] px-4 py-3 font-black text-white text-[14px] border-b border-gray-400 flex items-center justify-center">
+          <span className="tracking-widest uppercase">TRACKING STATUS DOKUMEN PER NAMA MITRA (JML BERKAS)</span>
+        </div>
+        <div className="overflow-x-auto relative">
+          <table className="w-full text-[9px] border border-gray-400 border-collapse whitespace-nowrap">
+            <thead>
+              <tr className="bg-[#04235c] text-white font-bold text-center uppercase">
+                <th className="py-2 px-3 border border-gray-400 align-middle sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">NAMA MITRA</th>
+                {mitraColumns.map(col => (
+                  <th key={col} className="py-2 px-1 border border-gray-400 max-w-[70px] whitespace-normal leading-tight">{col}</th>
+                ))}
+                <th className="py-2 px-3 border border-gray-400 align-middle sticky right-0 bg-[#04235c] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.5)]">TOTAL BERKAS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mitraRowsCountHTML.length > 0 ? mitraRowsCountHTML : (
+                <tr>
+                  <td colSpan={mitraColumns.length + 2} className="text-center py-4 font-bold text-gray-500">TIDAK ADA DATA MITRA</td>
+                </tr>
+              )}
+              <tr className="bg-[#04235c] text-white font-bold">
+                <td className="py-2 px-3 border border-gray-400 text-center uppercase sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">GRAND TOTAL</td>
+                {colCountsMitra.map((tot, idx) => (
+                  <td key={idx} className="py-2 px-2 border border-gray-400 text-center">
+                    {tot > 0 ? formatNumberDot(tot) : ''}
+                  </td>
+                ))}
+                <td className="py-2 px-3 border border-gray-400 text-center sticky right-0 bg-[#04235c] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.5)]">
+                  {allGrandCountMitra > 0 ? formatNumberDot(allGrandCountMitra) : ''}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 2. TABEL MATRIX - NILAI DPP */}
+      <div className="bg-white shadow-sm border border-gray-400 overflow-hidden">
+        <div className="bg-[#04235c] px-4 py-3 font-black text-white text-[14px] border-b border-gray-400 flex items-center justify-center">
+          <span className="tracking-widest uppercase">TRACKING STATUS DOKUMEN PER NAMA MITRA (NILAI DPP)</span>
+        </div>
+        <div className="overflow-x-auto relative">
+          <table className="w-full text-[9px] border border-gray-400 border-collapse whitespace-nowrap">
+            <thead>
+              <tr className="bg-[#04235c] text-white font-bold text-center uppercase">
+                <th className="py-2 px-3 border border-gray-400 align-middle sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">NAMA MITRA</th>
+                {mitraColumns.map(col => (
+                  <th key={col} className="py-2 px-1 border border-gray-400 max-w-[70px] whitespace-normal leading-tight">{col}</th>
+                ))}
+                <th className="py-2 px-3 border border-gray-400 align-middle sticky right-0 bg-[#04235c] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.5)]">NILAI DPP</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mitraRowsValueHTML.length > 0 ? mitraRowsValueHTML : (
+                <tr>
+                  <td colSpan={mitraColumns.length + 2} className="text-center py-4 font-bold text-gray-500">TIDAK ADA DATA MITRA</td>
+                </tr>
+              )}
+              <tr className="bg-[#04235c] text-white font-bold">
+                <td className="py-2 px-3 border border-gray-400 text-center uppercase sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">GRAND TOTAL</td>
+                {colTotalsMitra.map((tot, idx) => (
+                  <td key={idx} className="py-2 px-2 border border-gray-400 text-right">
+                    {tot > 0 ? formatNumberDot(tot) : ''}
+                  </td>
+                ))}
+                <td className="py-2 px-3 border border-gray-400 text-right sticky right-0 bg-[#04235c] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.5)]">
+                  {allGrandTotalMitra > 0 ? formatNumberDot(allGrandTotalMitra) : ''}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
     </div>
   );
 };
