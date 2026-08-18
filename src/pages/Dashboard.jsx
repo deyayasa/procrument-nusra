@@ -5,6 +5,9 @@ import { formatNumberDot } from "../utils/dashboardCalculations.js";
 const Dashboard = () => {
   const [selectedBranch, setSelectedBranch] = useState('ALL');
   const [selectedYear, setSelectedYear] = useState('ALL');
+  
+  // STATE BARU UNTUK FILTER PLAN GR (Sesuai Kolom TAHUN PLAN GR dan BULAN PLAN GR)
+  const [selectedPlanGrYear, setSelectedPlanGrYear] = useState('ALL');
   const [selectedMonth, setSelectedMonth] = useState('ALL');
   
   const { summary, loading, error } = useDashboard(selectedBranch, selectedYear, selectedMonth);
@@ -13,9 +16,10 @@ const Dashboard = () => {
   const tables = summary?.tables || {};
   const availableYears = summary?.availableYears || [];
   
+  // Pilihan bulan sudah murni nama bulan saja sesuai data terbarumu
   const availableMonths = [
-    "JANUARI '26", "FEBRUARI '26", "MARET '26", "APRIL '26", "MEI '26", "JUNI '26", 
-    "JULI '26", "AGUSTUS '26", "SEPTEMBER '26", "OKTOBER '26", "NOVEMBER '26", "DESEMBER '26"
+    "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", 
+    "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
   ];
 
   const {
@@ -89,14 +93,19 @@ const Dashboard = () => {
     const rowMonths = planGrMap[jp] || {};
     let mtrC = 0, mtrV = 0, kpgC = 0, kpgV = 0;
 
-    const monthsToProcess = selectedMonth === 'ALL' ? availableMonths : [selectedMonth];
+    // Membaca kombinasi Tahun_Bulan
+    Object.keys(rowMonths).forEach(key => { 
+        const [kYear, kMonth] = key.split('_');
+        let matchYear = selectedPlanGrYear === 'ALL' || kYear === selectedPlanGrYear;
+        let matchMonth = selectedMonth === 'ALL' || kMonth === selectedMonth;
 
-    monthsToProcess.forEach(m => {
-      const mData = rowMonths[m] || { mataram: { count: 0, nilaiDPP: 0 }, kupang: { count: 0, nilaiDPP: 0 } };
-      mtrC += mData.mataram.count;
-      mtrV += mData.mataram.nilaiDPP;
-      kpgC += mData.kupang.count;
-      kpgV += mData.kupang.nilaiDPP;
+        if (matchYear && matchMonth) {
+            const mData = rowMonths[key];
+            mtrC += mData.mataram.count;
+            mtrV += mData.mataram.nilaiDPP;
+            kpgC += mData.kupang.count;
+            kpgV += mData.kupang.nilaiDPP;
+        }
     });
 
     grandMtrC_GR += mtrC;
@@ -126,7 +135,7 @@ const Dashboard = () => {
   const prio2 = renderDynamicTableRows(tables.prio2Map || {});
 
   // ==========================================
-  // KALKULASI TABEL NAMA MITRA MATRIX (COUNT & NILAI DPP)
+  // KALKULASI TABEL NAMA MITRA MATRIX
   // ==========================================
   const mitraMapData = tables.mitraMap || {};
   const mitraNames = Object.keys(mitraMapData).filter(m => m !== "TIDAK ADA NAMA MITRA" && m !== "").sort();
@@ -215,7 +224,7 @@ const Dashboard = () => {
       <div className="mb-6 flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-black text-gray-800 tracking-tight uppercase">Procurement Nusra</h1>
-          <p className="text-sm font-bold text-gray-600">Dashboard Monitoring Tagihan Mitra NUSRA 2026</p>
+          <p className="text-sm font-bold text-gray-600">Dashboard Monitoring Tagihan Mitra</p>
         </div>
         {loading && <div className="text-sm text-gray-600 font-bold animate-pulse">Memuat Data...</div>}
       </div>
@@ -223,8 +232,8 @@ const Dashboard = () => {
       {/* FILTER BAR ATAS */}
       <div className="bg-white border border-gray-300 p-4 shadow-sm mb-4 flex flex-col md:flex-row md:justify-between md:items-center">
         <div>
-          <h2 className="text-sm font-extrabold text-black uppercase tracking-wide">FILTER DATA</h2>
-          <p className="text-xs text-gray-500 mt-1">Pilih branch dan tahun untuk melihat data</p>
+          <h2 className="text-sm font-extrabold text-black uppercase tracking-wide">FILTER DATA GLOBAL</h2>
+          <p className="text-xs text-gray-500 mt-1">Pilih branch dan tahun untuk melihat keseluruhan data</p>
         </div>
         <div className="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
           <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)} className="border-2 border-gray-400 px-3 py-2 text-sm font-bold text-black bg-white focus:outline-none focus:border-[#04235c] w-full sm:w-48 uppercase">
@@ -426,20 +435,35 @@ const Dashboard = () => {
 
       {/* TABEL PLAN GR PALING BAWAH */}
       <div className="bg-white shadow-sm border border-gray-400 overflow-hidden mb-6">
-        <div className="bg-[#fff000] px-4 py-2 font-black text-black text-[14px] border-b border-gray-400 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-          <span>PLAN GR NUSRA 2026</span>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase">FILTER BULAN:</span>
-            <select 
-              value={selectedMonth} 
-              onChange={(e) => setSelectedMonth(e.target.value)} 
-              className="border-2 border-gray-400 px-3 py-1 text-xs font-bold text-black bg-white focus:outline-none uppercase"
-            >
-              <option value="ALL">SEMUA BULAN (JAN - DES)</option>
-              {availableMonths.map(m => (
-                <option key={m} value={m}>{m}</option>
-              ))}
-            </select>
+        <div className="bg-[#fff000] px-4 py-2 font-black text-black text-[14px] border-b border-gray-400 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+          <span>PLAN GR NUSRA</span>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold uppercase">FILTER TAHUN:</span>
+              <select 
+                value={selectedPlanGrYear} 
+                onChange={(e) => setSelectedPlanGrYear(e.target.value)} 
+                className="border-2 border-gray-400 px-3 py-1 text-xs font-bold text-black bg-white focus:outline-none uppercase"
+              >
+                <option value="ALL">SEMUA TAHUN</option>
+                {availableYears.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold uppercase">FILTER BULAN:</span>
+              <select 
+                value={selectedMonth} 
+                onChange={(e) => setSelectedMonth(e.target.value)} 
+                className="border-2 border-gray-400 px-3 py-1 text-xs font-bold text-black bg-white focus:outline-none uppercase"
+              >
+                <option value="ALL">SEMUA BULAN</option>
+                {availableMonths.map(m => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
