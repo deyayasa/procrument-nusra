@@ -1,0 +1,220 @@
+/* ================================
+   TOTAL OPEN - BAR CHART
+   ================================ */
+
+.total-open-card {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 48px);
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border-radius: 24px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  overflow: hidden;
+}
+
+/* TITLE */
+
+.total-open-title {
+  margin: 0;
+  text-align: center;
+
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 800;
+
+  color: #000000;
+}
+
+.total-open-line {
+  width: 100%;
+  height: 2px;
+
+  margin-top: clamp(20px, 3vw, 35px);
+  margin-bottom: clamp(50px, 7vw, 90px);
+
+  background: #d5dbe3;
+}
+
+/* CHART */
+
+.total-open-chart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  gap: clamp(55px, 8vw, 110px);
+}
+
+/* ROW */
+
+.total-open-row {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 230px)
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: clamp(20px, 4vw, 50px);
+
+  box-sizing: border-box;
+}
+
+/* LABEL */
+
+.total-open-label {
+  min-width: 0;
+
+  font-size: clamp(24px, 3vw, 42px);
+  font-weight: 700;
+
+  color: #354052;
+
+  text-align: right;
+
+  white-space: nowrap;
+}
+
+/* AREA BAR */
+
+.total-open-bar-area {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  overflow: visible;
+}
+
+/* BAR */
+
+.total-open-bar {
+  min-width: 220px;
+  min-height: 100px;
+
+  padding: 0 clamp(18px, 2.5vw, 32px);
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  border-radius: 0;
+
+  overflow: hidden;
+}
+
+/* VALUE */
+
+.total-open-value {
+  display: block;
+
+  color: #ffffff;
+
+  font-size: clamp(20px, 2.5vw, 36px);
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  overflow: visible;
+}
+
+/* =================================
+   TABLET
+   ================================= */
+
+@media (max-width: 768px) {
+  .total-open-card {
+    width: 100%;
+    padding: 28px 22px;
+    border-radius: 20px;
+  }
+
+  .total-open-line {
+    margin-top: 20px;
+    margin-bottom: 55px;
+  }
+
+  .total-open-row {
+    grid-template-columns: minmax(120px, 35%) minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .total-open-label {
+    font-size: clamp(20px, 5vw, 32px);
+  }
+
+  .total-open-bar {
+    min-width: 0;
+    width: 100% !important;
+
+    min-height: 80px;
+
+    padding: 0 18px;
+  }
+
+  .total-open-value {
+    font-size: clamp(16px, 4vw, 26px);
+  }
+}
+
+/* =================================
+   MOBILE
+   ================================= */
+
+@media (max-width: 480px) {
+  .total-open-card {
+    padding: 24px 16px;
+    border-radius: 18px;
+  }
+
+  .total-open-title {
+    font-size: 25px;
+  }
+
+  .total-open-line {
+    margin-top: 18px;
+    margin-bottom: 45px;
+  }
+
+  .total-open-chart {
+    gap: 55px;
+  }
+
+  .total-open-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .total-open-label {
+    text-align: left;
+    font-size: 25px;
+  }
+
+  .total-open-bar-area {
+    width: 100%;
+  }
+
+  .total-open-bar {
+    width: 100% !important;
+    min-width: 0;
+
+    min-height: 70px;
+
+    padding: 0 16px;
+  }
+
+  .total-open-value {
+    font-size: 19px;
+  }
+}
