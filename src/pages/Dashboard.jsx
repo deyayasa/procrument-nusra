@@ -512,7 +512,7 @@ const Dashboard = () => {
               <tr className="bg-[#04235c] text-white font-bold text-center uppercase">
                 <th className="py-2 px-3 border border-gray-400 align-middle sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">NAMA MITRA</th>
                 {mitraColumns.map(col => (
-                  <th key={col} className="py-2 px-1 border border-gray-400 max-w-[70px] whitespace-normal leading-tight">{col}</th>
+                  <th key={col} className="py-2 px-2 border border-gray-400 min-w-[85px] break-words whitespace-normal leading-snug">{col}</th>
                 ))}
                 <th className="py-2 px-3 border border-gray-400 align-middle sticky right-0 bg-[#04235c] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.5)]">TOTAL BERKAS</th>
               </tr>
@@ -550,7 +550,7 @@ const Dashboard = () => {
               <tr className="bg-[#04235c] text-white font-bold text-center uppercase">
                 <th className="py-2 px-3 border border-gray-400 align-middle sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">NAMA MITRA</th>
                 {mitraColumns.map(col => (
-                  <th key={col} className="py-2 px-1 border border-gray-400 max-w-[70px] whitespace-normal leading-tight">{col}</th>
+                  <th key={col} className="py-2 px-2 border border-gray-400 min-w-[85px] break-words whitespace-normal leading-snug">{col}</th>
                 ))}
                 <th className="py-2 px-3 border border-gray-400 align-middle sticky right-0 bg-[#04235c] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.5)]">NILAI DPP</th>
               </tr>
