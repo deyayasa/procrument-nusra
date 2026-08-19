@@ -5,8 +5,6 @@ import { formatNumberDot } from "../utils/dashboardCalculations.js";
 const Dashboard = () => {
   const [selectedBranch, setSelectedBranch] = useState('ALL');
   const [selectedYear, setSelectedYear] = useState('ALL');
-  
-  // STATE BARU UNTUK FILTER PLAN GR (Sesuai Kolom TAHUN PLAN GR dan BULAN PLAN GR)
   const [selectedPlanGrYear, setSelectedPlanGrYear] = useState('ALL');
   const [selectedMonth, setSelectedMonth] = useState('ALL');
   
@@ -16,7 +14,6 @@ const Dashboard = () => {
   const tables = summary?.tables || {};
   const availableYears = summary?.availableYears || [];
   
-  // Pilihan bulan sudah murni nama bulan saja sesuai data terbarumu
   const availableMonths = [
     "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", 
     "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
@@ -48,15 +45,23 @@ const Dashboard = () => {
 
   const showMtr = selectedBranch === 'ALL' || selectedBranch === 'MATARAM';
   const showKpg = selectedBranch === 'ALL' || selectedBranch === 'KUPANG';
+  const showFls = selectedBranch === 'ALL' || selectedBranch === 'FLORES';
 
   const renderDynamicTableRows = (mapData) => {
-    let grandMtrC = 0, grandMtrV = 0, grandKpgC = 0, grandKpgV = 0;
+    let grandMtrC = 0, grandMtrV = 0;
+    let grandKpgC = 0, grandKpgV = 0;
+    let grandFlsC = 0, grandFlsV = 0;
     const safeMap = mapData || {};
     
     const rows = Object.keys(safeMap).map((status, idx) => {
-      const item = safeMap[status] || { mataram: { count: 0, nilaiDPP: 0 }, kupang: { count: 0, nilaiDPP: 0 } };
+      const item = safeMap[status] || { 
+        mataram: { count: 0, nilaiDPP: 0 }, 
+        kupang: { count: 0, nilaiDPP: 0 },
+        flores: { count: 0, nilaiDPP: 0 }
+      };
       grandMtrC += item.mataram.count; grandMtrV += item.mataram.nilaiDPP;
       grandKpgC += item.kupang.count; grandKpgV += item.kupang.nilaiDPP;
+      grandFlsC += (item.flores?.count || 0); grandFlsV += (item.flores?.nilaiDPP || 0);
       
       return (
         <tr key={idx} className="border-b border-black hover:bg-gray-100 text-[10px] text-black font-semibold bg-white whitespace-nowrap">
@@ -73,11 +78,17 @@ const Dashboard = () => {
               <td className="py-1.5 px-2 text-right border border-black">{item.kupang.nilaiDPP > 0 ? formatNumberDot(item.kupang.nilaiDPP) : '0'}</td>
             </>
           )}
+          {showFls && (
+            <>
+              <td className="py-1.5 px-1 text-center border border-black">{item.flores?.count || 0}</td>
+              <td className="py-1.5 px-2 text-right border border-black">{(item.flores?.nilaiDPP || 0) > 0 ? formatNumberDot(item.flores.nilaiDPP) : '0'}</td>
+            </>
+          )}
         </tr>
       );
     });
 
-    return { rows, grandMtrC, grandMtrV, grandKpgC, grandKpgV };
+    return { rows, grandMtrC, grandMtrV, grandKpgC, grandKpgV, grandFlsC, grandFlsV };
   };
 
   // Plan GR Calculation
@@ -88,33 +99,34 @@ const Dashboard = () => {
   
   let grandMtrC_GR = 0, grandMtrV_GR = 0;
   let grandKpgC_GR = 0, grandKpgV_GR = 0;
+  let grandFlsC_GR = 0, grandFlsV_GR = 0;
 
   const planGrRows = jenisPekerjaanList.map((jp) => {
     const rowMonths = planGrMap[jp] || {};
-    let mtrC = 0, mtrV = 0, kpgC = 0, kpgV = 0;
+    let mtrC = 0, mtrV = 0, kpgC = 0, kpgV = 0, flsC = 0, flsV = 0;
 
-    // Membaca kombinasi Tahun_Bulan
     Object.keys(rowMonths).forEach(key => { 
-        const [kYear, kMonth] = key.split('_');
-        let matchYear = selectedPlanGrYear === 'ALL' || kYear === selectedPlanGrYear;
-        let matchMonth = selectedMonth === 'ALL' || kMonth === selectedMonth;
+      const [kYear, kMonth] = key.split('_');
+      let matchYear = selectedPlanGrYear === 'ALL' || kYear === selectedPlanGrYear;
+      let matchMonth = selectedMonth === 'ALL' || kMonth === selectedMonth;
 
-        if (matchYear && matchMonth) {
-            const mData = rowMonths[key];
-            mtrC += mData.mataram.count;
-            mtrV += mData.mataram.nilaiDPP;
-            kpgC += mData.kupang.count;
-            kpgV += mData.kupang.nilaiDPP;
-        }
+      if (matchYear && matchMonth) {
+        const mData = rowMonths[key];
+        mtrC += mData.mataram.count;
+        mtrV += mData.mataram.nilaiDPP;
+        kpgC += mData.kupang.count;
+        kpgV += mData.kupang.nilaiDPP;
+        flsC += (mData.flores?.count || 0);
+        flsV += (mData.flores?.nilaiDPP || 0);
+      }
     });
 
-    grandMtrC_GR += mtrC;
-    grandMtrV_GR += mtrV;
-    grandKpgC_GR += kpgC;
-    grandKpgV_GR += kpgV;
+    grandMtrC_GR += mtrC; grandMtrV_GR += mtrV;
+    grandKpgC_GR += kpgC; grandKpgV_GR += kpgV;
+    grandFlsC_GR += flsC; grandFlsV_GR += flsV;
 
-    const rowTotalC = mtrC + kpgC;
-    const rowTotalV = mtrV + kpgV;
+    const rowTotalC = mtrC + kpgC + flsC;
+    const rowTotalV = mtrV + kpgV + flsV;
 
     return (
       <tr key={jp} className="border-b border-gray-400 hover:bg-gray-100 text-[11px] text-black font-semibold bg-white">
@@ -123,6 +135,8 @@ const Dashboard = () => {
         <td className="py-1.5 px-3 text-right border border-gray-400">{mtrV > 0 ? formatNumberDot(mtrV) : '0'}</td>
         <td className="py-1.5 px-3 text-center border border-gray-400">{kpgC}</td>
         <td className="py-1.5 px-3 text-right border border-gray-400">{kpgV > 0 ? formatNumberDot(kpgV) : '0'}</td>
+        <td className="py-1.5 px-3 text-center border border-gray-400">{flsC}</td>
+        <td className="py-1.5 px-3 text-right border border-gray-400">{flsV > 0 ? formatNumberDot(flsV) : '0'}</td>
         <td className="py-1.5 px-3 text-center border border-gray-400 bg-gray-50">{rowTotalC}</td>
         <td className="py-1.5 px-3 text-right border border-gray-400 bg-gray-50">{rowTotalV > 0 ? formatNumberDot(rowTotalV) : '0'}</td>
       </tr>
@@ -134,9 +148,7 @@ const Dashboard = () => {
   const prio1 = renderDynamicTableRows(tables.prio1Map || {});
   const prio2 = renderDynamicTableRows(tables.prio2Map || {});
 
-  // ==========================================
-  // KALKULASI TABEL NAMA MITRA MATRIX
-  // ==========================================
+  // Matrix Mitra
   const mitraMapData = tables.mitraMap || {};
   const mitraNames = Object.keys(mitraMapData).filter(m => m !== "TIDAK ADA NAMA MITRA" && m !== "").sort();
 
@@ -149,7 +161,6 @@ const Dashboard = () => {
     'CASH BANK', 'CANCEL'
   ];
 
-  // 1. HITUNGAN UNTUK TABEL JML BERKAS (COUNT)
   let colCountsMitra = new Array(mitraColumns.length).fill(0);
   let allGrandCountMitra = 0;
 
@@ -183,7 +194,6 @@ const Dashboard = () => {
     );
   });
 
-  // 2. HITUNGAN UNTUK TABEL NILAI DPP
   let colTotalsMitra = new Array(mitraColumns.length).fill(0);
   let allGrandTotalMitra = 0;
 
@@ -240,6 +250,7 @@ const Dashboard = () => {
             <option value="ALL">SEMUA BRANCH</option>
             <option value="MATARAM">MATARAM</option>
             <option value="KUPANG">KUPANG</option>
+            <option value="FLORES">FLORES</option>
           </select>
           <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} className="border-2 border-gray-400 px-3 py-2 text-sm font-bold text-black bg-white focus:outline-none focus:border-[#04235c] w-full sm:w-44 uppercase">
             <option value="ALL">SEMUA TAHUN</option>
@@ -272,7 +283,7 @@ const Dashboard = () => {
 
       {/* GRID KONTEN TENGAH */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-6">
-        {/* KOLOM KIRI: DONUT CHART & TOTAL OPEN BAR */}
+        {/* KOLOM KIRI: DONUT CHART & BAR */}
         <div className="lg:col-span-3 flex flex-col gap-6">
           <div className="bg-white border border-black shadow-sm overflow-hidden p-6 flex flex-col items-center">
             <div 
@@ -328,10 +339,12 @@ const Dashboard = () => {
                     <th className="py-1.5 px-2 border border-black align-middle" rowSpan="2">STATUS BERKAS</th>
                     {showMtr && <th className="py-1 px-2 border border-black" colSpan="2">MATARAM</th>}
                     {showKpg && <th className="py-1 px-2 border border-black" colSpan="2">KUPANG</th>}
+                    {showFls && <th className="py-1 px-2 border border-black" colSpan="2">FLORES</th>}
                   </tr>
                   <tr className="bg-[#04235c] text-white text-[9px] font-bold uppercase">
-                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
-                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showFls && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -340,6 +353,7 @@ const Dashboard = () => {
                     <td className="py-1.5 px-2 text-center border border-black">Grand Total</td>
                     {showMtr && <><td className="py-1.5 px-1 text-center border border-black">{docBranch.grandMtrC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(docBranch.grandMtrV)}</td></>}
                     {showKpg && <><td className="py-1.5 px-1 text-center border border-black">{docBranch.grandKpgC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(docBranch.grandKpgV)}</td></>}
+                    {showFls && <><td className="py-1.5 px-1 text-center border border-black">{docBranch.grandFlsC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(docBranch.grandFlsV)}</td></>}
                   </tr>
                 </tbody>
               </table>
@@ -354,10 +368,12 @@ const Dashboard = () => {
                     <th className="py-1.5 px-2 border border-black align-middle" rowSpan="2">STATUS BERKAS</th>
                     {showMtr && <th className="py-1 px-2 border border-black" colSpan="2">MATARAM</th>}
                     {showKpg && <th className="py-1 px-2 border border-black" colSpan="2">KUPANG</th>}
+                    {showFls && <th className="py-1 px-2 border border-black" colSpan="2">FLORES</th>}
                   </tr>
                   <tr className="bg-[#04235c] text-white text-[9px] font-bold uppercase">
-                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
-                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showFls && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -366,6 +382,7 @@ const Dashboard = () => {
                     <td className="py-1.5 px-2 text-center border border-black">Grand Total</td>
                     {showMtr && <><td className="py-1.5 px-1 text-center border border-black">{docArea.grandMtrC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(docArea.grandMtrV)}</td></>}
                     {showKpg && <><td className="py-1.5 px-1 text-center border border-black">{docArea.grandKpgC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(docArea.grandKpgV)}</td></>}
+                    {showFls && <><td className="py-1.5 px-1 text-center border border-black">{docArea.grandFlsC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(docArea.grandFlsV)}</td></>}
                   </tr>
                 </tbody>
               </table>
@@ -387,10 +404,12 @@ const Dashboard = () => {
                     <th className="py-1.5 px-2 border border-black align-middle" rowSpan="2">STATUS BERKAS</th>
                     {showMtr && <th className="py-1 px-2 border border-black" colSpan="2">MATARAM</th>}
                     {showKpg && <th className="py-1 px-2 border border-black" colSpan="2">KUPANG</th>}
+                    {showFls && <th className="py-1 px-2 border border-black" colSpan="2">FLORES</th>}
                   </tr>
                   <tr className="bg-[#04235c] text-white text-[9px] font-bold uppercase">
-                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
-                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showFls && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -399,6 +418,7 @@ const Dashboard = () => {
                     <td className="py-1.5 px-2 text-center border border-black">Grand Total</td>
                     {showMtr && <><td className="py-1.5 px-1 text-center border border-black">{prio1.grandMtrC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(prio1.grandMtrV)}</td></>}
                     {showKpg && <><td className="py-1.5 px-1 text-center border border-black">{prio1.grandKpgC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(prio1.grandKpgV)}</td></>}
+                    {showFls && <><td className="py-1.5 px-1 text-center border border-black">{prio1.grandFlsC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(prio1.grandFlsV)}</td></>}
                   </tr>
                 </tbody>
               </table>
@@ -413,10 +433,12 @@ const Dashboard = () => {
                     <th className="py-1.5 px-2 border border-black align-middle" rowSpan="2">STATUS BERKAS</th>
                     {showMtr && <th className="py-1 px-2 border border-black" colSpan="2">MATARAM</th>}
                     {showKpg && <th className="py-1 px-2 border border-black" colSpan="2">KUPANG</th>}
+                    {showFls && <th className="py-1 px-2 border border-black" colSpan="2">FLORES</th>}
                   </tr>
                   <tr className="bg-[#04235c] text-white text-[9px] font-bold uppercase">
-                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
-                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-14">JML BERKAS</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showMtr && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showKpg && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
+                    {showFls && <><th className="py-1 px-2 text-center border border-black w-12">JML</th><th className="py-1 px-2 text-center border border-black">NILAI DPP</th></>}
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -425,6 +447,7 @@ const Dashboard = () => {
                     <td className="py-1.5 px-2 text-center border border-black">Grand Total</td>
                     {showMtr && <><td className="py-1.5 px-1 text-center border border-black">{prio2.grandMtrC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(prio2.grandMtrV)}</td></>}
                     {showKpg && <><td className="py-1.5 px-1 text-center border border-black">{prio2.grandKpgC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(prio2.grandKpgV)}</td></>}
+                    {showFls && <><td className="py-1.5 px-1 text-center border border-black">{prio2.grandFlsC}</td><td className="py-1.5 px-2 text-right border border-black">{formatNumberDot(prio2.grandFlsV)}</td></>}
                   </tr>
                 </tbody>
               </table>
@@ -433,7 +456,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* TABEL PLAN GR PALING BAWAH */}
+      {/* TABEL PLAN GR */}
       <div className="bg-white shadow-sm border border-gray-400 overflow-hidden mb-6">
         <div className="bg-[#fff000] px-4 py-2 font-black text-black text-[14px] border-b border-gray-400 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
           <span>PLAN GR NUSRA</span>
@@ -474,9 +497,12 @@ const Dashboard = () => {
                 <th className="py-2 px-2 border border-gray-400 align-middle" rowSpan="2">JENIS PEKERJAAN</th>
                 <th className="py-1 px-2 border border-gray-400" colSpan="2">MATARAM</th>
                 <th className="py-1 px-2 border border-gray-400" colSpan="2">KUPANG</th>
+                <th className="py-1 px-2 border border-gray-400" colSpan="2">FLORES</th>
                 <th className="py-1 px-2 border border-gray-400" colSpan="2">GRAND TOTAL</th>
               </tr>
               <tr className="bg-[#04235c] text-white text-[9px] font-bold text-center">
+                <th className="py-1.5 px-2 border border-gray-400">JML BERKAS</th>
+                <th className="py-1.5 px-2 border border-gray-400">NILAI DPP</th>
                 <th className="py-1.5 px-2 border border-gray-400">JML BERKAS</th>
                 <th className="py-1.5 px-2 border border-gray-400">NILAI DPP</th>
                 <th className="py-1.5 px-2 border border-gray-400">JML BERKAS</th>
@@ -493,8 +519,10 @@ const Dashboard = () => {
                 <td className="py-1.5 px-3 text-right border border-gray-400">{formatNumberDot(grandMtrV_GR)}</td>
                 <td className="py-1.5 px-3 text-center border border-gray-400">{grandKpgC_GR}</td>
                 <td className="py-1.5 px-3 text-right border border-gray-400">{formatNumberDot(grandKpgV_GR)}</td>
-                <td className="py-1.5 px-3 text-center border border-gray-400">{grandMtrC_GR + grandKpgC_GR}</td>
-                <td className="py-1.5 px-3 text-right border border-gray-400">{formatNumberDot(grandMtrV_GR + grandKpgV_GR)}</td>
+                <td className="py-1.5 px-3 text-center border border-gray-400">{grandFlsC_GR}</td>
+                <td className="py-1.5 px-3 text-right border border-gray-400">{formatNumberDot(grandFlsV_GR)}</td>
+                <td className="py-1.5 px-3 text-center border border-gray-400">{grandMtrC_GR + grandKpgC_GR + grandFlsC_GR}</td>
+                <td className="py-1.5 px-3 text-right border border-gray-400">{formatNumberDot(grandMtrV_GR + grandKpgV_GR + grandFlsV_GR)}</td>
               </tr>
             </tbody>
           </table>

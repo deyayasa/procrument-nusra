@@ -11,8 +11,13 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
   let cancelValue = 0, cancelCount = 0;
   let nokDokValue = 0, openDokValue = 0;
 
-  const initData = () => ({ mataram: { count: 0, nilaiDPP: 0 }, kupang: { count: 0, nilaiDPP: 0 } });
-  
+  // Inisialisasi data untuk 3 Branch: Mataram, Kupang, Flores
+  const initData = () => ({
+    mataram: { count: 0, nilaiDPP: 0 },
+    kupang: { count: 0, nilaiDPP: 0 },
+    flores: { count: 0, nilaiDPP: 0 }
+  });
+
   const availableMonths = [
     "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", 
     "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
@@ -72,43 +77,40 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
   safeData.forEach(item => {
     if (!item) return;
 
-    // 1. Ekstraksi Branch 
+    // 1. Ekstraksi Branch (Termasuk FLORES)
     const branchAsli = String(getVal(item, ["BRANCH", "WITEL", "AREA", "LOKASI"]) || "").trim().toUpperCase();
     let branchKey = "";
     if (branchAsli === "MTR" || branchAsli.includes("MATARAM") || branchAsli === "NTB") branchKey = "mataram";
     else if (branchAsli === "KPG" || branchAsli.includes("KUPANG") || branchAsli === "NTT") branchKey = "kupang";
+    else if (branchAsli === "FLS" || branchAsli.includes("FLORES")) branchKey = "flores";
 
     // 2. Ekstraksi Tahun Umum
     let tahunAsli = String(getVal(item, ["TAHUN"]) || "").trim();
     if (tahunAsli && tahunAsli !== "undefined") {
-        if (tahunAsli.endsWith(".0")) tahunAsli = tahunAsli.replace(".0", "");
-        availableYears.add(tahunAsli);
+      if (tahunAsli.endsWith(".0")) tahunAsli = tahunAsli.replace(".0", "");
+      availableYears.add(tahunAsli);
     }
 
-    // 3. EKSTRAKSI NILAI DPP
+    // 3. Ekstraksi Nilai DPP
     let nilaiRaw = getVal(item, ["NILAI DPP"]);
     if (nilaiRaw === undefined || nilaiRaw === null || String(nilaiRaw).trim() === "") nilaiRaw = 0; 
     const nilaiDPP = typeof nilaiRaw === "number" ? nilaiRaw : parseFloat(String(nilaiRaw).replace(/\./g, "").replace(/,/g, ".")) || 0;
     
-    // 4. EKSTRAKSI JENIS PEKERJAAN
+    // 4. Ekstraksi Jenis Pekerjaan
     const jenisPekerjaan = String(getVal(item, ["JENIS PEKERJAAN", "JENIS PEKE"]) || "").trim().toUpperCase();
 
-    // 5. EKSTRAKSI TAHUN PLAN GR & BULAN PLAN GR (STRICT KOLOM Y & Z)
+    // 5. Ekstraksi Plan GR
     const keys = Object.keys(item);
-    
-    // Tarik TAHUN PLAN GR (KOLOM Z) - TANPA FALLBACK
     const tpgKey = keys.find(k => k.toUpperCase().includes("TAHUN PLAN GR"));
     let tahunPlanGrStr = tpgKey && item[tpgKey] ? String(item[tpgKey]).trim() : "";
     
-    // LOGIKA BARU: Sangat Kaku. Kalau di kolom Z kosong, ya kosong!
     if (!tahunPlanGrStr || tahunPlanGrStr === "-" || tahunPlanGrStr.includes("KOSONG") || tahunPlanGrStr === "undefined") {
-        tahunPlanGrStr = "TIDAK ADA TAHUN"; 
+      tahunPlanGrStr = "TIDAK ADA TAHUN"; 
     } else if (tahunPlanGrStr.endsWith(".0")) {
-        tahunPlanGrStr = tahunPlanGrStr.replace(".0", "");
+      tahunPlanGrStr = tahunPlanGrStr.replace(".0", "");
     }
     if (tahunPlanGrStr !== "TIDAK ADA TAHUN") availableYears.add(tahunPlanGrStr);
 
-    // Tarik BULAN PLAN GR (KOLOM Y)
     const bpgKey = keys.find(k => {
       const upperK = k.toUpperCase();
       return upperK.includes("PLAN GR") && !upperK.includes("TAHUN");
@@ -131,8 +133,7 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
       else if (rawBulanPlanGr.includes("DES") || rawBulanPlanGr.includes("DEC")) bulanPlanGrStr = "DESEMBER";
     }
 
-    // --- LOGIKA UTAMA PLAN GR ---
-    const planGrKey = `${tahunPlanGrStr}_${bulanPlanGrStr}`; // Contoh: "2026_JANUARI"
+    const planGrKey = `${tahunPlanGrStr}_${bulanPlanGrStr}`;
     const jpMap = jenisPekerjaan || "TIDAK ADA JENIS PEKERJAAN";
     
     if (!planGrMap[jpMap]) planGrMap[jpMap] = {};
@@ -145,13 +146,11 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
       }
     }
 
-    // ==========================================================
-    // FILTER GLOBAL UNTUK DASHBOARD SISANYA
-    // ==========================================================
+    // Filter Global
     if (selectedBranch !== "ALL" && branchKey !== "" && selectedBranch !== branchKey.toUpperCase()) return;
     if (selectedYear !== "ALL" && tahunAsli !== "" && tahunAsli !== "undefined" && tahunAsli !== selectedYear) return;
 
-    // 6. EKSTRAKSI STATUS BERKAS & MITRA UNTUK TABEL LAINNYA
+    // 6. Ekstraksi Status & Mitra
     const statusBerkas = String(getVal(item, ["STATUS BERKAS", "STATUS BERKAS 1", "STATUS TAGIHAN", "STATUS BEKE", "STATUS BEI"]) || "TIDAK ADA STATUS").trim().toUpperCase();
     const namaMitra = String(getVal(item, ["NAMA MITRA", "MITRA", "VENDOR"]) || "TIDAK ADA NAMA MITRA").trim().toUpperCase();
 
@@ -166,25 +165,25 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
     else if (openDokStatuses.some(s => statusBerkas.includes(s))) openDokValue += nilaiDPP;
 
     if (branchKey) {
-        if (!mitraMap[namaMitra]) mitraMap[namaMitra] = {};
-        if (!mitraMap[namaMitra][statusBerkas]) mitraMap[namaMitra][statusBerkas] = { count: 0, nilaiDPP: 0 };
-        mitraMap[namaMitra][statusBerkas].count++;
-        mitraMap[namaMitra][statusBerkas].nilaiDPP += nilaiDPP;
+      if (!mitraMap[namaMitra]) mitraMap[namaMitra] = {};
+      if (!mitraMap[namaMitra][statusBerkas]) mitraMap[namaMitra][statusBerkas] = { count: 0, nilaiDPP: 0 };
+      mitraMap[namaMitra][statusBerkas].count++;
+      mitraMap[namaMitra][statusBerkas].nilaiDPP += nilaiDPP;
 
-        const matchKey = (mapObj) => {
+      const matchKey = (mapObj) => {
         for (let key in mapObj) {
-            if (statusBerkas === key || statusBerkas.includes(key)) {
+          if (statusBerkas === key || statusBerkas.includes(key)) {
             mapObj[key][branchKey].count++;
             mapObj[key][branchKey].nilaiDPP += nilaiDPP;
             break;
-            }
+          }
         }
-        };
+      };
 
-        matchKey(docBranchMap);
-        matchKey(docAreaMap);
-        matchKey(prio1Map);
-        matchKey(prio2Map);
+      matchKey(docBranchMap);
+      matchKey(docAreaMap);
+      matchKey(prio1Map);
+      matchKey(prio2Map);
     }
   });
 
