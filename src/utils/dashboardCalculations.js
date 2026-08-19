@@ -93,20 +93,22 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
     // 4. EKSTRAKSI JENIS PEKERJAAN
     const jenisPekerjaan = String(getVal(item, ["JENIS PEKERJAAN", "JENIS PEKE"]) || "").trim().toUpperCase();
 
-    // 5. EKSTRAKSI TAHUN PLAN GR & BULAN PLAN GR DARI KOLOM MASING-MASING
+    // 5. EKSTRAKSI TAHUN PLAN GR & BULAN PLAN GR (STRICT KOLOM Y & Z)
     const keys = Object.keys(item);
     
-    // Tarik TAHUN PLAN GR
+    // Tarik TAHUN PLAN GR (KOLOM Z) - TANPA FALLBACK
     const tpgKey = keys.find(k => k.toUpperCase().includes("TAHUN PLAN GR"));
     let tahunPlanGrStr = tpgKey && item[tpgKey] ? String(item[tpgKey]).trim() : "";
-    if (!tahunPlanGrStr || tahunPlanGrStr === "-" || tahunPlanGrStr.includes("KOSONG")) {
-        tahunPlanGrStr = tahunAsli || "TIDAK ADA TAHUN";
+    
+    // LOGIKA BARU: Sangat Kaku. Kalau di kolom Z kosong, ya kosong!
+    if (!tahunPlanGrStr || tahunPlanGrStr === "-" || tahunPlanGrStr.includes("KOSONG") || tahunPlanGrStr === "undefined") {
+        tahunPlanGrStr = "TIDAK ADA TAHUN"; 
     } else if (tahunPlanGrStr.endsWith(".0")) {
         tahunPlanGrStr = tahunPlanGrStr.replace(".0", "");
     }
     if (tahunPlanGrStr !== "TIDAK ADA TAHUN") availableYears.add(tahunPlanGrStr);
 
-    // Tarik BULAN PLAN GR
+    // Tarik BULAN PLAN GR (KOLOM Y)
     const bpgKey = keys.find(k => {
       const upperK = k.toUpperCase();
       return upperK.includes("PLAN GR") && !upperK.includes("TAHUN");
@@ -129,8 +131,8 @@ export function getDashboardSummary(data = [], selectedBranch = "ALL", selectedY
       else if (rawBulanPlanGr.includes("DES") || rawBulanPlanGr.includes("DEC")) bulanPlanGrStr = "DESEMBER";
     }
 
-    // --- LOGIKA UTAMA PLAN GR (GABUNGAN TAHUN DAN BULAN) ---
-    const planGrKey = `${tahunPlanGrStr}_${bulanPlanGrStr}`; // Contoh hasil: "2026_JANUARI"
+    // --- LOGIKA UTAMA PLAN GR ---
+    const planGrKey = `${tahunPlanGrStr}_${bulanPlanGrStr}`; // Contoh: "2026_JANUARI"
     const jpMap = jenisPekerjaan || "TIDAK ADA JENIS PEKERJAAN";
     
     if (!planGrMap[jpMap]) planGrMap[jpMap] = {};
