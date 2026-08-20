@@ -227,7 +227,6 @@ const Dashboard = () => {
   });
 
   return (
-    // Penambahan max-w-[100vw] dan overflow-x-hidden agar layar HP tidak bisa geser ke area kosong
     <div className="min-h-screen bg-slate-50 relative overflow-x-hidden w-full max-w-[100vw] p-3 md:p-6 font-sans text-slate-800">
       
       {/* 🌟 ABSTRACT GLOWING AURA BACKGROUND 🌟 */}
@@ -257,7 +256,7 @@ const Dashboard = () => {
           </div>}
         </div>
 
-        {/* FILTER BAR ATAS (GLASS CARD) */}
+        {/* FILTER BAR ATAS */}
         <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6 md:mb-8 flex flex-col md:flex-row md:justify-between md:items-center transition-all w-full">
           <div className="text-center md:text-left mb-3 md:mb-0">
             <h2 className="text-xs md:text-sm font-black text-[#04235c] uppercase tracking-widest">Global Filter</h2>
@@ -285,9 +284,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* BALOK SUMMARY UTAMA (FLOATING GLASS CARDS) */}
+        {/* BALOK SUMMARY UTAMA - Menggunakan text Rp dengan posisi flex-baseline rapi */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8 w-full">
-          
           <div className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
             <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             <div className="flex flex-col relative z-10">
@@ -331,8 +329,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
         </div>
+
         {/* GRID KONTEN TENGAH */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-6 md:mb-8 w-full">
           
