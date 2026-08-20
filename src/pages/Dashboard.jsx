@@ -27,7 +27,7 @@ const Dashboard = () => {
     nokDokValue = 0, openDokValue = 0
   } = metrics;
 
-  // Donut Percentage
+  // Donut Percentage & Total
   const chartTotal = cashBankValue + dokOgpValue + cancelValue;
   const pctCash = chartTotal > 0 ? (cashBankValue / chartTotal) * 100 : 0;
   const pctOgp = chartTotal > 0 ? (dokOgpValue / chartTotal) * 100 : 0;
@@ -342,13 +342,24 @@ const Dashboard = () => {
           {/* KOLOM KIRI: DONUT CHART & BAR */}
           <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 w-full">
             
-            <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] shadow-sm overflow-hidden p-5 md:p-6 flex flex-col items-center">
+            <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] shadow-sm overflow-hidden p-5 md:p-6 flex flex-col items-center relative">
               
-              {/* 🍩 3D DONUT CHART PREMIUM (Theme: Soft Blue, Red, Yellow) 🍩 */}
+              {/* 🍩 3D DONUT CHART PREMIUM (Dengan Angka Langsung di Donat) 🍩 */}
               <div className="relative mt-4 mb-14 md:mt-6 md:mb-16 flex justify-center group" style={{ perspective: '1200px' }}>
                 
                 {/* Aura Glow di belakang donut */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 md:w-44 md:h-44 bg-[#8aa7c2]/20 blur-[30px] rounded-full animate-pulse z-0"></div>
+
+                {/* Floating Percentages Badges (Muncul angka persentase di sekeliling donat) */}
+                <div className="absolute top-[10%] right-[5%] md:right-[10%] bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg shadow-sm border border-[#e8d8c8] z-20 pointer-events-none transform transition-all duration-700 group-hover:-translate-y-3">
+                  <span className="text-[#8aa7c2] font-black text-[9px] md:text-[10px]">{pctCash.toFixed(1)}%</span>
+                </div>
+                <div className="absolute bottom-[0%] left-[15%] md:left-[20%] bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg shadow-sm border border-[#e8d8c8] z-20 pointer-events-none transform transition-all duration-700 group-hover:-translate-y-3">
+                  <span className="text-[#d87c7c] font-black text-[9px] md:text-[10px]">{pctOgp.toFixed(1)}%</span>
+                </div>
+                <div className="absolute top-[5%] left-[5%] md:left-[10%] bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg shadow-sm border border-[#e8d8c8] z-20 pointer-events-none transform transition-all duration-700 group-hover:-translate-y-3">
+                  <span className="text-[#dbad69] font-black text-[9px] md:text-[10px]">{pctCancel.toFixed(1)}%</span>
+                </div>
 
                 <div 
                   className="relative w-40 h-40 md:w-48 md:h-48 rounded-full transition-all duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-2 z-10" 
@@ -368,15 +379,28 @@ const Dashboard = () => {
                   {/* Efek Kilap Kaca (Gloss Reflection) */}
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/60 via-transparent to-black/5 pointer-events-none mix-blend-overlay"></div>
 
-                  {/* Lubang Donut Tengah */}
+                  {/* Lubang Donut Tengah - Menampilkan Total Angka */}
                   <div 
-                    className="absolute inset-0 m-auto w-20 h-20 md:w-24 md:h-24 bg-white rounded-full"
+                    className="absolute inset-0 m-auto w-20 h-20 md:w-24 md:h-24 bg-white rounded-full flex flex-col items-center justify-center"
                     style={{ 
                       /* Bayangan dalam agar lubang terlihat tebal, bolong, dan dalam */
                       boxShadow: 'inset 0 6px 10px rgba(0,0,0,0.06), inset 0 2px 4px rgba(0,0,0,0.03), 0 -2px 5px rgba(255,255,255,1)',
                       transform: 'translateZ(1px)' // Mencegah glitch border 
                     }}
-                  ></div>
+                  >
+                    {/* Teks di-inverse rotasinya agar berdiri tegak menghadap depan */}
+                    <div style={{ transform: 'rotateZ(25deg) rotateX(-60deg)' }} className="flex flex-col items-center justify-center">
+                      <span className="text-[7px] md:text-[8px] font-black text-[#8f8278] uppercase tracking-widest drop-shadow-sm mb-0.5">TOTAL</span>
+                      <span className="text-[9px] md:text-[11px] font-black text-[#2b2724] drop-shadow-sm tracking-tighter">
+                        {/* Konversi otomatis angka agar tidak kepanjangan dan muat di lubang donat */}
+                        {chartTotal >= 1000000000000 
+                          ? (chartTotal/1000000000000).toFixed(2) + ' T' 
+                          : chartTotal >= 1000000000 
+                          ? (chartTotal/1000000000).toFixed(1) + ' M' 
+                          : formatNumberDot(chartTotal)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
