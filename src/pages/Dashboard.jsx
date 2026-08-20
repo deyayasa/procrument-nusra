@@ -63,24 +63,24 @@ const Dashboard = () => {
       grandFlsC += (item.flores?.count || 0); grandFlsV += (item.flores?.nilaiDPP || 0);
       
       return (
-        <tr key={idx} className="border-b border-slate-200/50 hover:bg-white/60 text-[10px] text-slate-700 font-semibold bg-white/30 whitespace-nowrap transition-all duration-300">
-          <td className="py-2 px-3 border-r border-slate-200/50 uppercase">{status}</td>
+        <tr key={idx} className="border-b border-[#e8d8c8] hover:bg-[#fcf8f2] text-[10px] text-[#4a3f38] font-semibold bg-white whitespace-nowrap transition-all duration-300">
+          <td className="py-2 px-3 border-r border-[#e8d8c8] uppercase">{status}</td>
           {showMtr && (
             <>
-              <td className="py-2 px-1 text-center border-r border-slate-200/50">{item.mataram.count}</td>
-              <td className="py-2 px-2 text-right border-r border-slate-200/50 text-slate-800">{item.mataram.nilaiDPP > 0 ? formatNumberDot(item.mataram.nilaiDPP) : '0'}</td>
+              <td className="py-2 px-1 text-center border-r border-[#e8d8c8]">{item.mataram.count}</td>
+              <td className="py-2 px-2 text-right border-r border-[#e8d8c8] text-[#2b2724]">{item.mataram.nilaiDPP > 0 ? formatNumberDot(item.mataram.nilaiDPP) : '0'}</td>
             </>
           )}
           {showKpg && (
             <>
-              <td className="py-2 px-1 text-center border-r border-slate-200/50">{item.kupang.count}</td>
-              <td className="py-2 px-2 text-right border-r border-slate-200/50 text-slate-800">{item.kupang.nilaiDPP > 0 ? formatNumberDot(item.kupang.nilaiDPP) : '0'}</td>
+              <td className="py-2 px-1 text-center border-r border-[#e8d8c8]">{item.kupang.count}</td>
+              <td className="py-2 px-2 text-right border-r border-[#e8d8c8] text-[#2b2724]">{item.kupang.nilaiDPP > 0 ? formatNumberDot(item.kupang.nilaiDPP) : '0'}</td>
             </>
           )}
           {showFls && (
             <>
-              <td className="py-2 px-1 text-center border-r border-slate-200/50">{item.flores?.count || 0}</td>
-              <td className="py-2 px-2 text-right border-slate-200/50 text-slate-800">{(item.flores?.nilaiDPP || 0) > 0 ? formatNumberDot(item.flores.nilaiDPP) : '0'}</td>
+              <td className="py-2 px-1 text-center border-r border-[#e8d8c8]">{item.flores?.count || 0}</td>
+              <td className="py-2 px-2 text-right border-[#e8d8c8] text-[#2b2724]">{(item.flores?.nilaiDPP || 0) > 0 ? formatNumberDot(item.flores.nilaiDPP) : '0'}</td>
             </>
           )}
         </tr>
@@ -128,16 +128,16 @@ const Dashboard = () => {
     const rowTotalV = mtrV + kpgV + flsV;
 
     return (
-      <tr key={jp} className="border-b border-slate-200/50 hover:bg-white/60 text-[11px] text-slate-700 font-semibold bg-white/30 transition-colors whitespace-nowrap">
-        <td className="py-2 px-3 border-r border-slate-200/50 uppercase">{jp}</td>
-        <td className="py-2 px-3 text-center border-r border-slate-200/50">{mtrC}</td>
-        <td className="py-2 px-3 text-right border-r border-slate-200/50 text-slate-800">{mtrV > 0 ? formatNumberDot(mtrV) : '0'}</td>
-        <td className="py-2 px-3 text-center border-r border-slate-200/50">{kpgC}</td>
-        <td className="py-2 px-3 text-right border-r border-slate-200/50 text-slate-800">{kpgV > 0 ? formatNumberDot(kpgV) : '0'}</td>
-        <td className="py-2 px-3 text-center border-r border-slate-200/50">{flsC}</td>
-        <td className="py-2 px-3 text-right border-r border-slate-200/50 text-slate-800">{flsV > 0 ? formatNumberDot(flsV) : '0'}</td>
-        <td className="py-2 px-3 text-center border-r border-slate-200/50 bg-blue-50/50 text-[#04235c]">{rowTotalC}</td>
-        <td className="py-2 px-3 text-right border-slate-200/50 bg-blue-50/50 text-[#04235c]">{rowTotalV > 0 ? formatNumberDot(rowTotalV) : '0'}</td>
+      <tr key={jp} className="border-b border-[#e8d8c8] hover:bg-[#fcf8f2] text-[11px] text-[#4a3f38] font-semibold bg-white transition-colors whitespace-nowrap">
+        <td className="py-2 px-3 border-r border-[#e8d8c8] uppercase">{jp}</td>
+        <td className="py-2 px-3 text-center border-r border-[#e8d8c8]">{mtrC}</td>
+        <td className="py-2 px-3 text-right border-r border-[#e8d8c8] text-[#2b2724]">{mtrV > 0 ? formatNumberDot(mtrV) : '0'}</td>
+        <td className="py-2 px-3 text-center border-r border-[#e8d8c8]">{kpgC}</td>
+        <td className="py-2 px-3 text-right border-r border-[#e8d8c8] text-[#2b2724]">{kpgV > 0 ? formatNumberDot(kpgV) : '0'}</td>
+        <td className="py-2 px-3 text-center border-r border-[#e8d8c8]">{flsC}</td>
+        <td className="py-2 px-3 text-right border-r border-[#e8d8c8] text-[#2b2724]">{flsV > 0 ? formatNumberDot(flsV) : '0'}</td>
+        <td className="py-2 px-3 text-center border-r border-[#e8d8c8] bg-[#fdf5ed] text-[#b88645]">{rowTotalC}</td>
+        <td className="py-2 px-3 text-right border-[#e8d8c8] bg-[#fdf5ed] text-[#b88645]">{rowTotalV > 0 ? formatNumberDot(rowTotalV) : '0'}</td>
       </tr>
     );
   });
@@ -174,7 +174,7 @@ const Dashboard = () => {
       colCountsMitra[idx] += cellValue;
 
       return (
-        <td key={col} className="py-2 px-2 text-center border-b border-slate-200/50 border-r min-w-[70px]">
+        <td key={col} className="py-2 px-2 text-center border-b border-[#e8d8c8] border-r min-w-[70px]">
           {cellValue > 0 ? formatNumberDot(cellValue) : ''}
         </td>
       );
@@ -183,10 +183,10 @@ const Dashboard = () => {
     allGrandCountMitra += rowCount;
 
     return (
-      <tr key={`count-${mitra}`} className="hover:bg-white/60 text-[9px] text-slate-700 bg-white/30 whitespace-nowrap transition-colors">
-        <td className="py-2 px-3 border-b border-slate-200/50 border-r font-bold uppercase sticky left-0 bg-slate-50 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] z-10 max-w-[120px] md:max-w-[200px] truncate">{mitra}</td>
+      <tr key={`count-${mitra}`} className="hover:bg-[#fcf8f2] text-[9px] text-[#4a3f38] bg-white whitespace-nowrap transition-colors">
+        <td className="py-2 px-3 border-b border-[#e8d8c8] border-r font-bold uppercase sticky left-0 bg-white shadow-[2px_0_5px_-2px_rgba(43,39,36,0.05)] z-10 max-w-[120px] md:max-w-[200px] truncate">{mitra}</td>
         {colsHtml}
-        <td className="py-2 px-3 text-center border-b border-slate-200/50 font-black bg-blue-50/90 text-[#04235c] sticky right-0 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.05)] z-10 min-w-[80px]">
+        <td className="py-2 px-3 text-center border-b border-[#e8d8c8] font-black bg-[#f0e0ce] text-[#2b2724] sticky right-0 shadow-[-2px_0_5px_-2px_rgba(43,39,36,0.05)] z-10 min-w-[80px]">
           {rowCount > 0 ? formatNumberDot(rowCount) : ''}
         </td>
       </tr>
@@ -207,7 +207,7 @@ const Dashboard = () => {
       colTotalsMitra[idx] += cellValue;
 
       return (
-        <td key={col} className="py-2 px-2 text-right border-b border-slate-200/50 border-r text-slate-800 min-w-[80px]">
+        <td key={col} className="py-2 px-2 text-right border-b border-[#e8d8c8] border-r text-[#2b2724] min-w-[80px]">
           {cellValue > 0 ? formatNumberDot(cellValue) : ''}
         </td>
       );
@@ -216,10 +216,10 @@ const Dashboard = () => {
     allGrandTotalMitra += rowTotal;
 
     return (
-      <tr key={`val-${mitra}`} className="hover:bg-white/60 text-[9px] text-slate-700 bg-white/30 whitespace-nowrap transition-colors">
-        <td className="py-2 px-3 border-b border-slate-200/50 border-r font-bold uppercase sticky left-0 bg-slate-50 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] z-10 max-w-[120px] md:max-w-[200px] truncate">{mitra}</td>
+      <tr key={`val-${mitra}`} className="hover:bg-[#fcf8f2] text-[9px] text-[#4a3f38] bg-white whitespace-nowrap transition-colors">
+        <td className="py-2 px-3 border-b border-[#e8d8c8] border-r font-bold uppercase sticky left-0 bg-white shadow-[2px_0_5px_-2px_rgba(43,39,36,0.05)] z-10 max-w-[120px] md:max-w-[200px] truncate">{mitra}</td>
         {colsHtml}
-        <td className="py-2 px-3 text-right border-b border-slate-200/50 font-black bg-blue-50/90 text-[#04235c] sticky right-0 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.05)] z-10 min-w-[90px]">
+        <td className="py-2 px-3 text-right border-b border-[#e8d8c8] font-black bg-[#f0e0ce] text-[#2b2724] sticky right-0 shadow-[-2px_0_5px_-2px_rgba(43,39,36,0.05)] z-10 min-w-[90px]">
           {rowTotal > 0 ? formatNumberDot(rowTotal) : ''}
         </td>
       </tr>
@@ -227,13 +227,14 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 relative overflow-x-hidden w-full max-w-[100vw] p-3 md:p-6 font-sans text-slate-800">
+    // Background Warm Sand / Beige
+    <div className="min-h-screen bg-[#ebdcd0] relative overflow-x-hidden w-full max-w-[100vw] p-3 md:p-6 font-sans text-[#2b2724]">
       
-      {/* 🌟 ABSTRACT GLOWING AURA BACKGROUND 🌟 */}
+      {/* 🌟 ABSTRACT GLOWING AURA BACKGROUND (Soft Blue, Red, Yellow Pastel) 🌟 */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[70vw] md:w-[50vw] h-[70vw] md:h-[50vw] rounded-full bg-blue-400/20 blur-[100px] md:blur-[120px]"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] md:w-[60vw] h-[80vw] md:h-[60vw] rounded-full bg-emerald-300/20 blur-[100px] md:blur-[120px]"></div>
-        <div className="absolute top-[30%] left-[40%] w-[60vw] md:w-[40vw] h-[60vw] md:h-[40vw] rounded-full bg-purple-400/15 blur-[80px] md:blur-[100px]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[70vw] md:w-[50vw] h-[70vw] md:h-[50vw] rounded-full bg-[#8aa7c2]/20 blur-[100px] md:blur-[120px]"></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] md:w-[60vw] h-[80vw] md:h-[60vw] rounded-full bg-[#d87c7c]/15 blur-[100px] md:blur-[120px]"></div>
+        <div className="absolute top-[30%] left-[40%] w-[60vw] md:w-[40vw] h-[60vw] md:h-[40vw] rounded-full bg-[#dbad69]/15 blur-[80px] md:blur-[100px]"></div>
       </div>
 
       <div className="relative z-10 w-full">
@@ -243,87 +244,91 @@ const Dashboard = () => {
         {/* HEADER */}
         <div className="mb-6 md:mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-3 md:gap-4">
           <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#04235c] via-blue-600 to-teal-500 drop-shadow-sm leading-tight">
+            <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#2b2724] via-[#5c544e] to-[#8aa7c2] drop-shadow-sm leading-tight">
               Procurement
             </h1>
-            <h1 className="text-2xl md:text-4xl font-black tracking-tight uppercase text-slate-800 -mt-1 md:-mt-2">
+            <h1 className="text-2xl md:text-4xl font-black tracking-tight uppercase text-[#2b2724] -mt-1 md:-mt-2">
               Nusra Dashboard
             </h1>
-            <p className="text-xs md:text-sm font-bold text-slate-500 mt-2 uppercase tracking-[0.15em] md:tracking-[0.2em]">Monitoring Tagihan Mitra</p>
+            <p className="text-xs md:text-sm font-bold text-[#8f8278] mt-2 uppercase tracking-[0.15em] md:tracking-[0.2em]">Monitoring Tagihan Mitra</p>
           </div>
-          {loading && <div className="text-[10px] md:text-xs self-center md:self-end text-blue-600 font-black animate-pulse flex items-center gap-2 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-100">
-            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-600 animate-ping"></span> Syncing Data...
+          {loading && <div className="text-[10px] md:text-xs self-center md:self-end text-[#2b2724] font-black animate-pulse flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full border border-[#dccaba] shadow-sm">
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#d87c7c] animate-ping"></span> Syncing Data...
           </div>}
         </div>
 
         {/* FILTER BAR ATAS */}
-        <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6 md:mb-8 flex flex-col md:flex-row md:justify-between md:items-center transition-all w-full">
+        <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-4 md:p-5 shadow-sm mb-6 md:mb-8 flex flex-col md:flex-row md:justify-between md:items-center transition-all w-full">
           <div className="text-center md:text-left mb-3 md:mb-0">
-            <h2 className="text-xs md:text-sm font-black text-[#04235c] uppercase tracking-widest">Global Filter</h2>
-            <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 font-semibold">Sesuaikan parameter di seluruh panel</p>
+            <h2 className="text-xs md:text-sm font-black text-[#2b2724] uppercase tracking-widest">Global Filter</h2>
+            <p className="text-[10px] md:text-xs text-[#8f8278] mt-0.5 font-semibold">Sesuaikan parameter di seluruh panel</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative w-full sm:w-48">
-              <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)} className="appearance-none w-full border border-white/50 rounded-xl md:rounded-2xl px-4 py-2.5 pr-10 text-xs font-black text-slate-700 bg-white/50 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#04235c] uppercase shadow-sm cursor-pointer hover:bg-white/80">
+              <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)} className="appearance-none w-full border border-[#e8d8c8] rounded-xl md:rounded-2xl px-4 py-2.5 pr-10 text-xs font-black text-[#2b2724] bg-[#fcfaf7] focus:outline-none focus:ring-2 focus:ring-[#8aa7c2] uppercase shadow-sm cursor-pointer hover:bg-white">
                 <option value="ALL">SEMUA BRANCH</option>
                 <option value="MATARAM">MATARAM</option>
                 <option value="KUPANG">KUPANG</option>
                 <option value="FLORES">FLORES</option>
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 md:px-4 text-slate-500">▼</div>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 md:px-4 text-[#8f8278]">▼</div>
             </div>
             <div className="relative w-full sm:w-44">
-              <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} className="appearance-none w-full border border-white/50 rounded-xl md:rounded-2xl px-4 py-2.5 pr-10 text-xs font-black text-slate-700 bg-white/50 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#04235c] uppercase shadow-sm cursor-pointer hover:bg-white/80">
+              <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} className="appearance-none w-full border border-[#e8d8c8] rounded-xl md:rounded-2xl px-4 py-2.5 pr-10 text-xs font-black text-[#2b2724] bg-[#fcfaf7] focus:outline-none focus:ring-2 focus:ring-[#8aa7c2] uppercase shadow-sm cursor-pointer hover:bg-white">
                 <option value="ALL">SEMUA TAHUN</option>
                 {availableYears.map(year => (
                   <option key={year} value={year}>{year}</option>
                 ))}
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 md:px-4 text-slate-500">▼</div>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 md:px-4 text-[#8f8278]">▼</div>
             </div>
           </div>
         </div>
 
-        {/* BALOK SUMMARY UTAMA - Menggunakan text Rp dengan posisi flex-baseline rapi */}
+        {/* BALOK SUMMARY UTAMA */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8 w-full">
-          <div className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+          {/* White Card with Soft Blue Accent */}
+          <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#8aa7c2] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             <div className="flex flex-col relative z-10">
-              <span className="text-slate-500 font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Total Keseluruhan</span>
-              <div className="font-black text-[#04235c] tracking-tighter flex items-baseline gap-x-1.5">
+              <span className="text-[#8f8278] font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Total Keseluruhan</span>
+              <div className="font-black text-[#2b2724] tracking-tighter flex items-baseline gap-x-1.5">
                 <span className="text-sm md:text-base opacity-70">Rp</span>
                 <span className="text-xl sm:text-2xl md:text-3xl">{formatNumberDot(totalValue)}</span>
               </div>
             </div>
           </div>
           
-          <div className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+          {/* White Card with Soft Yellow Accent */}
+          <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#dbad69] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             <div className="flex flex-col relative z-10">
-              <span className="text-emerald-500 font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Cash Bank</span>
-              <div className="font-black text-slate-800 tracking-tighter flex items-baseline gap-x-1.5">
+              <span className="text-[#8f8278] font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Cash Bank</span>
+              <div className="font-black text-[#2b2724] tracking-tighter flex items-baseline gap-x-1.5">
                 <span className="text-sm md:text-base opacity-70">Rp</span>
                 <span className="text-xl sm:text-2xl md:text-3xl">{formatNumberDot(cashBankValue)}</span>
               </div>
             </div>
           </div>
           
-          <div className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+          {/* White Card with Soft Coral/Red Accent */}
+          <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#d87c7c] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             <div className="flex flex-col relative z-10">
-              <span className="text-blue-500 font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Dok OGP</span>
-              <div className="font-black text-slate-800 tracking-tighter flex items-baseline gap-x-1.5">
+              <span className="text-[#8f8278] font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Dok OGP</span>
+              <div className="font-black text-[#2b2724] tracking-tighter flex items-baseline gap-x-1.5">
                 <span className="text-sm md:text-base opacity-70">Rp</span>
                 <span className="text-xl sm:text-2xl md:text-3xl">{formatNumberDot(dokOgpValue)}</span>
               </div>
             </div>
           </div>
           
-          <div className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-rose-400 to-red-500 rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+          {/* White Card with Soft Gray/Neutral Accent */}
+          <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#9a918a] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
             <div className="flex flex-col relative z-10">
-              <span className="text-rose-500 font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Cancel PO</span>
-              <div className="font-black text-slate-800 tracking-tighter flex items-baseline gap-x-1.5">
+              <span className="text-[#8f8278] font-black text-[9px] md:text-[10px] uppercase mb-1 tracking-widest">Cancel PO</span>
+              <div className="font-black text-[#2b2724] tracking-tighter flex items-baseline gap-x-1.5">
                 <span className="text-sm md:text-base opacity-70">Rp</span>
                 <span className="text-xl sm:text-2xl md:text-3xl">{formatNumberDot(cancelValue)}</span>
               </div>
@@ -337,68 +342,88 @@ const Dashboard = () => {
           {/* KOLOM KIRI: DONUT CHART & BAR */}
           <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 w-full">
             
-            <div className="bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-5 md:p-6 flex flex-col items-center">
+            <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] shadow-sm overflow-hidden p-5 md:p-6 flex flex-col items-center">
               
-              <div className="relative mt-2 mb-12 md:mt-4 md:mb-16" style={{ perspective: '1200px' }}>
+              {/* 🍩 3D DONUT CHART PREMIUM (Theme: Soft Blue, Red, Yellow) 🍩 */}
+              <div className="relative mt-4 mb-14 md:mt-6 md:mb-16 flex justify-center group" style={{ perspective: '1200px' }}>
+                
+                {/* Aura Glow di belakang donut */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 md:w-44 md:h-44 bg-[#8aa7c2]/20 blur-[30px] rounded-full animate-pulse z-0"></div>
+
                 <div 
-                  className="relative w-40 h-40 md:w-48 md:h-48 rounded-full transition-transform duration-700 hover:scale-105 md:hover:scale-110" 
+                  className="relative w-40 h-40 md:w-48 md:h-48 rounded-full transition-all duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-2 z-10" 
                   style={{ 
-                    background: `conic-gradient(#10b981 0% ${endCash}%, #facc15 ${endCash}% ${endOgp}%, #ef4444 ${endOgp}% 100%)`,
-                    transform: 'rotateX(55deg) rotateZ(-25deg)',
-                    boxShadow: '0 10px 0 #cbd5e1, 0 25px 25px rgba(0,0,0,0.15)',
+                    // Warna Chart
+                    background: `conic-gradient(#8aa7c2 0% ${endCash}%, #d87c7c ${endCash}% ${endOgp}%, #dbad69 ${endOgp}% 100%)`,
+                    transform: 'rotateX(60deg) rotateZ(-25deg)',
+                    transformStyle: 'preserve-3d',
+                    /* Efek ketebalan (Cylinder) 3D yang realistis berlapis dengan warna beige/putih */
+                    boxShadow: `
+                      0 1px 0 #fcfaf7, 0 2px 0 #fcfaf7, 0 3px 0 #ebdcd0, 0 4px 0 #ebdcd0, 
+                      0 5px 0 #dccaba, 0 6px 0 #dccaba, 0 7px 0 #c4b0a1, 
+                      0 15px 25px rgba(43,39,36,0.15)
+                    `,
                   }}
                 >
+                  {/* Efek Kilap Kaca (Gloss Reflection) */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/60 via-transparent to-black/5 pointer-events-none mix-blend-overlay"></div>
+
+                  {/* Lubang Donut Tengah */}
                   <div 
-                    className="absolute inset-0 m-auto w-20 h-20 md:w-24 md:h-24 bg-[#f8fafc] rounded-full"
-                    style={{ boxShadow: 'inset 0 8px 0 rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.05)' }}
+                    className="absolute inset-0 m-auto w-20 h-20 md:w-24 md:h-24 bg-white rounded-full"
+                    style={{ 
+                      /* Bayangan dalam agar lubang terlihat tebal, bolong, dan dalam */
+                      boxShadow: 'inset 0 6px 10px rgba(0,0,0,0.06), inset 0 2px 4px rgba(0,0,0,0.03), 0 -2px 5px rgba(255,255,255,1)',
+                      transform: 'translateZ(1px)' // Mencegah glitch border 
+                    }}
                   ></div>
                 </div>
               </div>
 
               <div className="flex flex-col gap-2.5 w-full mt-2 px-1">
-                <div className="flex justify-between items-center bg-white/70 backdrop-blur-md px-3 md:px-4 py-2.5 md:py-3 rounded-xl md:rounded-2xl border border-white shadow-sm hover:shadow-md hover:bg-white">
+                <div className="flex justify-between items-center bg-white px-3 md:px-4 py-2.5 md:py-3 rounded-xl md:rounded-2xl border border-[#e8d8c8] shadow-sm hover:shadow-md hover:bg-[#fcfaf7] transition-all">
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#10b981] shadow-sm"></div>
-                    <span className="text-[9px] md:text-[10px] font-black text-slate-600 uppercase tracking-widest">CASH BANK</span>
+                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#8aa7c2] shadow-sm"></div>
+                    <span className="text-[9px] md:text-[10px] font-black text-[#8f8278] uppercase tracking-widest">CASH BANK</span>
                   </div>
-                  <span className="text-[11px] md:text-[12px] font-black text-[#04235c]">{pctCash.toFixed(1)}%</span>
+                  <span className="text-[11px] md:text-[12px] font-black text-[#2b2724]">{pctCash.toFixed(1)}%</span>
                 </div>
-                <div className="flex justify-between items-center bg-white/70 backdrop-blur-md px-3 md:px-4 py-2.5 md:py-3 rounded-xl md:rounded-2xl border border-white shadow-sm hover:shadow-md hover:bg-white">
+                <div className="flex justify-between items-center bg-white px-3 md:px-4 py-2.5 md:py-3 rounded-xl md:rounded-2xl border border-[#e8d8c8] shadow-sm hover:shadow-md hover:bg-[#fcfaf7] transition-all">
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#facc15] shadow-sm"></div>
-                    <span className="text-[9px] md:text-[10px] font-black text-slate-600 uppercase tracking-widest">DOK OGP</span>
+                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#d87c7c] shadow-sm"></div>
+                    <span className="text-[9px] md:text-[10px] font-black text-[#8f8278] uppercase tracking-widest">DOK OGP</span>
                   </div>
-                  <span className="text-[11px] md:text-[12px] font-black text-[#04235c]">{pctOgp.toFixed(1)}%</span>
+                  <span className="text-[11px] md:text-[12px] font-black text-[#2b2724]">{pctOgp.toFixed(1)}%</span>
                 </div>
-                <div className="flex justify-between items-center bg-white/70 backdrop-blur-md px-3 md:px-4 py-2.5 md:py-3 rounded-xl md:rounded-2xl border border-white shadow-sm hover:shadow-md hover:bg-white">
+                <div className="flex justify-between items-center bg-white px-3 md:px-4 py-2.5 md:py-3 rounded-xl md:rounded-2xl border border-[#e8d8c8] shadow-sm hover:shadow-md hover:bg-[#fcfaf7] transition-all">
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#ef4444] shadow-sm"></div>
-                    <span className="text-[9px] md:text-[10px] font-black text-slate-600 uppercase tracking-widest">CANCEL PO</span>
+                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#dbad69] shadow-sm"></div>
+                    <span className="text-[9px] md:text-[10px] font-black text-[#8f8278] uppercase tracking-widest">CANCEL PO</span>
                   </div>
-                  <span className="text-[11px] md:text-[12px] font-black text-[#04235c]">{pctCancel.toFixed(1)}%</span>
+                  <span className="text-[11px] md:text-[12px] font-black text-[#2b2724]">{pctCancel.toFixed(1)}%</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-full">
+            <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm w-full">
               <div className="flex justify-between items-end mb-4">
-                <span className="text-[10px] md:text-[11px] font-black text-emerald-600 uppercase tracking-widest">TOTAL OPEN</span>
-                <span className="text-lg md:text-xl font-black text-[#04235c] tracking-tighter">{formatNumberDot(barTotalOpen)}</span>
+                <span className="text-[10px] md:text-[11px] font-black text-[#8f8278] uppercase tracking-widest">TOTAL OPEN</span>
+                <span className="text-lg md:text-xl font-black text-[#2b2724] tracking-tighter">{formatNumberDot(barTotalOpen)}</span>
               </div>
               
               <div className="pt-1 flex flex-col gap-3 md:gap-4">
-                <div className="flex items-center bg-white/60 rounded-xl p-2 md:p-2.5 border border-white shadow-sm">
-                  <div className="w-10 md:w-12 text-[8px] md:text-[9px] text-slate-500 text-center font-black leading-tight border-r border-slate-200/50 pr-2">NOK<br/>DOK</div>
-                  <div className="flex-1 h-4 md:h-5 ml-2 md:ml-3 bg-slate-200/50 rounded-full overflow-hidden shadow-inner">
-                    <div className="bg-gradient-to-r from-rose-400 to-rose-600 h-full flex items-center justify-end px-2 md:px-3 transition-all duration-1000" style={{ width: `${pctNokDok}%` }}>
+                <div className="flex items-center bg-white rounded-xl p-2 md:p-2.5 border border-[#e8d8c8] shadow-sm">
+                  <div className="w-10 md:w-12 text-[8px] md:text-[9px] text-[#8f8278] text-center font-black leading-tight border-r border-[#e8d8c8] pr-2">NOK<br/>DOK</div>
+                  <div className="flex-1 h-4 md:h-5 ml-2 md:ml-3 bg-[#fcfaf7] rounded-full overflow-hidden shadow-inner">
+                    <div className="bg-gradient-to-r from-[#eacaca] to-[#d87c7c] h-full flex items-center justify-end px-2 md:px-3 transition-all duration-1000" style={{ width: `${pctNokDok}%` }}>
                       <span className="text-white font-bold text-[8px] md:text-[9px] drop-shadow-sm">{formatNumberDot(barNokDok)}</span>
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center bg-white/60 rounded-xl p-2 md:p-2.5 border border-white shadow-sm">
-                  <div className="w-10 md:w-12 text-[8px] md:text-[9px] text-slate-500 text-center font-black leading-tight border-r border-slate-200/50 pr-2">OPEN<br/>DOK</div>
-                  <div className="flex-1 h-4 md:h-5 ml-2 md:ml-3 bg-slate-200/50 rounded-full overflow-hidden shadow-inner">
-                    <div className="bg-gradient-to-r from-blue-400 to-indigo-500 h-full flex items-center justify-end px-2 md:px-3 transition-all duration-1000" style={{ width: `${pctOpenDok}%` }}>
+                <div className="flex items-center bg-white rounded-xl p-2 md:p-2.5 border border-[#e8d8c8] shadow-sm">
+                  <div className="w-10 md:w-12 text-[8px] md:text-[9px] text-[#8f8278] text-center font-black leading-tight border-r border-[#e8d8c8] pr-2">OPEN<br/>DOK</div>
+                  <div className="flex-1 h-4 md:h-5 ml-2 md:ml-3 bg-[#fcfaf7] rounded-full overflow-hidden shadow-inner">
+                    <div className="bg-gradient-to-r from-[#b3cce0] to-[#8aa7c2] h-full flex items-center justify-end px-2 md:px-3 transition-all duration-1000" style={{ width: `${pctOpenDok}%` }}>
                       <span className="text-white font-bold text-[8px] md:text-[9px] drop-shadow-sm">{formatNumberDot(barOpenDok)}</span>
                     </div>
                   </div>
@@ -408,39 +433,39 @@ const Dashboard = () => {
           </div>
 
           {/* KOLOM TENGAH: OPEN DOKUMEN */}
-          <div className="lg:col-span-4 bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col w-full">
+          <div className="lg:col-span-4 bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm flex flex-col w-full">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6">
               <div className="flex items-center gap-2 md:gap-3">
-                <div className="w-1.5 md:w-2 h-6 md:h-8 bg-blue-500 rounded-full"></div>
-                <h3 className="text-xs md:text-[14px] font-black tracking-widest uppercase text-[#04235c]">OPEN DOKUMEN</h3>
+                <div className="w-1.5 md:w-2 h-6 md:h-8 bg-[#8aa7c2] rounded-full"></div>
+                <h3 className="text-xs md:text-[14px] font-black tracking-widest uppercase text-[#2b2724]">OPEN DOKUMEN</h3>
               </div>
-              <span className="text-[8px] md:text-[10px] text-slate-400 font-bold hidden sm:block">➔ Swipe tabel ke kiri/kanan</span>
+              <span className="text-[8px] md:text-[10px] text-[#8f8278] font-bold hidden sm:block">➔ Swipe tabel ke kiri/kanan</span>
             </div>
             
             <div className="flex flex-col mb-4 md:mb-6 w-full max-w-full">
-              <h4 className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">DOKUMEN BRANCH</h4>
-              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-white bg-white/30 shadow-sm scroll-smooth">
+              <h4 className="text-[9px] md:text-[10px] font-black text-[#8aa7c2] uppercase mb-2 tracking-widest">DOKUMEN BRANCH</h4>
+              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
                 <table className="w-full text-[10px] md:text-xs border-collapse">
                   <thead>
-                    <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      <th className="py-2.5 px-3 border-r border-white/20 align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
-                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">MATARAM</th>}
-                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">KUPANG</th>}
-                      {showFls && <th className="py-1.5 px-2 border-b border-white/20" colSpan="2">FLORES</th>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      <th className="py-2.5 px-3 border-r border-[#e8d8c8] align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
+                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">MATARAM</th>}
+                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">KUPANG</th>}
+                      {showFls && <th className="py-1.5 px-2 border-b border-[#e8d8c8]" colSpan="2">FLORES</th>}
                     </tr>
-                    <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
                     </tr>
                   </thead>
                   <tbody>
                     {docBranch.rows}
-                    <tr className="bg-slate-100/50 backdrop-blur-md text-[#04235c] font-black text-[9px] md:text-[10px]">
-                      <td className="py-2.5 px-3 text-left border-t border-r border-white uppercase">Grand Total</td>
-                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{docBranch.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(docBranch.grandMtrV)}</td></>}
-                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{docBranch.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(docBranch.grandKpgV)}</td></>}
-                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{docBranch.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-white">{formatNumberDot(docBranch.grandFlsV)}</td></>}
+                    <tr className="bg-[#ebd5c1] text-[#2b2724] font-black text-[9px] md:text-[10px]">
+                      <td className="py-2.5 px-3 text-left border-t border-r border-[#dccaba] uppercase">Grand Total</td>
+                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{docBranch.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(docBranch.grandMtrV)}</td></>}
+                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{docBranch.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(docBranch.grandKpgV)}</td></>}
+                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{docBranch.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-[#dccaba]">{formatNumberDot(docBranch.grandFlsV)}</td></>}
                     </tr>
                   </tbody>
                 </table>
@@ -448,29 +473,29 @@ const Dashboard = () => {
             </div>
 
             <div className="flex flex-col w-full max-w-full">
-              <h4 className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">DOKUMEN AREA & HO</h4>
-              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-white bg-white/30 shadow-sm scroll-smooth">
+              <h4 className="text-[9px] md:text-[10px] font-black text-[#8aa7c2] uppercase mb-2 tracking-widest">DOKUMEN AREA & HO</h4>
+              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
                 <table className="w-full text-[10px] md:text-xs border-collapse">
                   <thead>
-                    <tr className="bg-emerald-600 text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      <th className="py-2.5 px-3 border-r border-white/20 align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
-                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">MATARAM</th>}
-                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">KUPANG</th>}
-                      {showFls && <th className="py-1.5 px-2 border-b border-white/20" colSpan="2">FLORES</th>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      <th className="py-2.5 px-3 border-r border-[#e8d8c8] align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
+                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">MATARAM</th>}
+                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">KUPANG</th>}
+                      {showFls && <th className="py-1.5 px-2 border-b border-[#e8d8c8]" colSpan="2">FLORES</th>}
                     </tr>
-                    <tr className="bg-emerald-600 text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
                     </tr>
                   </thead>
                   <tbody>
                     {docArea.rows}
-                    <tr className="bg-slate-100/50 backdrop-blur-md text-[#04235c] font-black text-[9px] md:text-[10px]">
-                      <td className="py-2.5 px-3 text-left border-t border-r border-white uppercase">Grand Total</td>
-                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{docArea.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(docArea.grandMtrV)}</td></>}
-                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{docArea.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(docArea.grandKpgV)}</td></>}
-                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{docArea.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-white">{formatNumberDot(docArea.grandFlsV)}</td></>}
+                    <tr className="bg-[#ebd5c1] text-[#2b2724] font-black text-[9px] md:text-[10px]">
+                      <td className="py-2.5 px-3 text-left border-t border-r border-[#dccaba] uppercase">Grand Total</td>
+                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{docArea.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(docArea.grandMtrV)}</td></>}
+                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{docArea.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(docArea.grandKpgV)}</td></>}
+                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{docArea.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-[#dccaba]">{formatNumberDot(docArea.grandFlsV)}</td></>}
                     </tr>
                   </tbody>
                 </table>
@@ -479,39 +504,39 @@ const Dashboard = () => {
           </div>
 
           {/* KOLOM KANAN: PRIORITAS */}
-          <div className="lg:col-span-5 bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col w-full">
+          <div className="lg:col-span-5 bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm flex flex-col w-full">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6">
               <div className="flex items-center gap-2 md:gap-3">
-                <div className="w-1.5 md:w-2 h-6 md:h-8 bg-amber-500 rounded-full"></div>
-                <h3 className="text-xs md:text-[14px] font-black tracking-widest uppercase text-[#04235c]">PRIORITAS DOKUMEN</h3>
+                <div className="w-1.5 md:w-2 h-6 md:h-8 bg-[#d87c7c] rounded-full"></div>
+                <h3 className="text-xs md:text-[14px] font-black tracking-widest uppercase text-[#2b2724]">PRIORITAS DOKUMEN</h3>
               </div>
-              <span className="text-[8px] md:text-[10px] text-slate-400 font-bold hidden sm:block">➔ Swipe tabel ke kiri/kanan</span>
+              <span className="text-[8px] md:text-[10px] text-[#8f8278] font-bold hidden sm:block">➔ Swipe tabel ke kiri/kanan</span>
             </div>
             
             <div className="flex flex-col mb-4 md:mb-6 w-full max-w-full">
-              <h4 className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">PRIORITAS 1</h4>
-              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-white bg-white/30 shadow-sm scroll-smooth">
+              <h4 className="text-[9px] md:text-[10px] font-black text-[#d87c7c] uppercase mb-2 tracking-widest">PRIORITAS 1</h4>
+              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
                 <table className="w-full text-[10px] md:text-xs border-collapse">
                   <thead>
-                    <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      <th className="py-2.5 px-3 border-r border-white/20 align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
-                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">MATARAM</th>}
-                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">KUPANG</th>}
-                      {showFls && <th className="py-1.5 px-2 border-b border-white/20" colSpan="2">FLORES</th>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      <th className="py-2.5 px-3 border-r border-[#e8d8c8] align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
+                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">MATARAM</th>}
+                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">KUPANG</th>}
+                      {showFls && <th className="py-1.5 px-2 border-b border-[#e8d8c8]" colSpan="2">FLORES</th>}
                     </tr>
-                    <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
                     </tr>
                   </thead>
                   <tbody>
                     {prio1.rows}
-                    <tr className="bg-slate-100/50 backdrop-blur-md text-[#04235c] font-black text-[9px] md:text-[10px]">
-                      <td className="py-2.5 px-3 text-left border-t border-r border-white uppercase">Grand Total</td>
-                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{prio1.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(prio1.grandMtrV)}</td></>}
-                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{prio1.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(prio1.grandKpgV)}</td></>}
-                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{prio1.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-white">{formatNumberDot(prio1.grandFlsV)}</td></>}
+                    <tr className="bg-[#ebd5c1] text-[#2b2724] font-black text-[9px] md:text-[10px]">
+                      <td className="py-2.5 px-3 text-left border-t border-r border-[#dccaba] uppercase">Grand Total</td>
+                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{prio1.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(prio1.grandMtrV)}</td></>}
+                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{prio1.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(prio1.grandKpgV)}</td></>}
+                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{prio1.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-[#dccaba]">{formatNumberDot(prio1.grandFlsV)}</td></>}
                     </tr>
                   </tbody>
                 </table>
@@ -519,29 +544,29 @@ const Dashboard = () => {
             </div>
             
             <div className="flex flex-col w-full max-w-full">
-              <h4 className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">PRIORITAS 2</h4>
-              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-white bg-white/30 shadow-sm scroll-smooth">
+              <h4 className="text-[9px] md:text-[10px] font-black text-[#d87c7c] uppercase mb-2 tracking-widest">PRIORITAS 2</h4>
+              <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
                 <table className="w-full text-[10px] md:text-xs border-collapse">
                   <thead>
-                    <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      <th className="py-2.5 px-3 border-r border-white/20 align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
-                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">MATARAM</th>}
-                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-white/20" colSpan="2">KUPANG</th>}
-                      {showFls && <th className="py-1.5 px-2 border-b border-white/20" colSpan="2">FLORES</th>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      <th className="py-2.5 px-3 border-r border-[#e8d8c8] align-middle text-left min-w-[120px]" rowSpan="2">STATUS BERKAS</th>
+                      {showMtr && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">MATARAM</th>}
+                      {showKpg && <th className="py-1.5 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">KUPANG</th>}
+                      {showFls && <th className="py-1.5 px-2 border-b border-[#e8d8c8]" colSpan="2">FLORES</th>}
                     </tr>
-                    <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black uppercase tracking-wider">
-                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-white/20 min-w-[70px]">NILAI DPP</th></>}
-                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-white/20 w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
+                    <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black uppercase tracking-wider">
+                      {showMtr && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showKpg && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th></>}
+                      {showFls && <><th className="py-1.5 px-2 text-center border-r border-[#e8d8c8] w-10">JML</th><th className="py-1.5 px-2 text-center min-w-[70px]">NILAI DPP</th></>}
                     </tr>
                   </thead>
                   <tbody>
                     {prio2.rows}
-                    <tr className="bg-slate-100/50 backdrop-blur-md text-[#04235c] font-black text-[9px] md:text-[10px]">
-                      <td className="py-2.5 px-3 text-left border-t border-r border-white uppercase">Grand Total</td>
-                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{prio2.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(prio2.grandMtrV)}</td></>}
-                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{prio2.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-white">{formatNumberDot(prio2.grandKpgV)}</td></>}
-                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-white">{prio2.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-white">{formatNumberDot(prio2.grandFlsV)}</td></>}
+                    <tr className="bg-[#ebd5c1] text-[#2b2724] font-black text-[9px] md:text-[10px]">
+                      <td className="py-2.5 px-3 text-left border-t border-r border-[#dccaba] uppercase">Grand Total</td>
+                      {showMtr && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{prio2.grandMtrC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(prio2.grandMtrV)}</td></>}
+                      {showKpg && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{prio2.grandKpgC}</td><td className="py-2.5 px-2 text-right border-t border-r border-[#dccaba]">{formatNumberDot(prio2.grandKpgV)}</td></>}
+                      {showFls && <><td className="py-2.5 px-1 text-center border-t border-r border-[#dccaba]">{prio2.grandFlsC}</td><td className="py-2.5 px-2 text-right border-t border-[#dccaba]">{formatNumberDot(prio2.grandFlsV)}</td></>}
                     </tr>
                   </tbody>
                 </table>
@@ -550,21 +575,21 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* TABEL PLAN GR (GLASSMORPHISM) */}
-        <div className="w-full bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-          <div className="bg-gradient-to-r from-yellow-400 to-amber-500 px-4 md:px-6 py-4 md:py-5 font-black text-[#04235c] flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-4 relative z-10 border-b border-white/50">
+        {/* TABEL PLAN GR */}
+        <div className="w-full bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] overflow-hidden mb-6 md:mb-8 shadow-sm">
+          <div className="bg-[#f0e0ce] px-4 md:px-6 py-4 md:py-5 font-black text-[#2b2724] flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-4 relative z-10 border-b border-[#e8d8c8]">
             <div className="flex justify-between items-center w-full md:w-auto">
               <span className="tracking-widest uppercase text-sm md:text-lg">PLAN GR NUSRA</span>
-              <span className="text-[9px] text-yellow-900 md:hidden bg-yellow-300/40 px-2 py-1 rounded">SWIPE ➔</span>
+              <span className="text-[9px] text-[#2b2724] md:hidden bg-white px-2 py-1 rounded">SWIPE ➔</span>
             </div>
             
             <div className="flex flex-row md:flex-row items-center gap-2 md:gap-4 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
               <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
-                <span className="text-[9px] md:text-[10px] font-black uppercase text-[#04235c] tracking-widest bg-white/40 backdrop-blur-md px-2 md:px-3 py-1.5 rounded-full">THN:</span>
+                <span className="text-[9px] md:text-[10px] font-black uppercase text-[#8f8278] tracking-widest bg-[#fcfaf7] px-2 md:px-3 py-1.5 rounded-full border border-[#e8d8c8]">THN:</span>
                 <select 
                   value={selectedPlanGrYear} 
                   onChange={(e) => setSelectedPlanGrYear(e.target.value)} 
-                  className="appearance-none border-none rounded-lg md:rounded-xl px-2 md:px-4 py-1.5 md:py-2 md:pr-8 text-[10px] md:text-xs font-bold text-slate-800 bg-white/80 focus:ring-2 focus:ring-[#04235c] uppercase shadow-sm cursor-pointer"
+                  className="appearance-none border border-[#e8d8c8] rounded-lg md:rounded-xl px-2 md:px-4 py-1.5 md:py-2 md:pr-8 text-[10px] md:text-xs font-bold text-[#2b2724] bg-white focus:ring-2 focus:ring-[#8aa7c2] uppercase shadow-sm cursor-pointer hover:bg-[#fcfaf7]"
                 >
                   <option value="ALL">SEMUA</option>
                   {availableYears.map(year => (
@@ -573,11 +598,11 @@ const Dashboard = () => {
                 </select>
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
-                <span className="text-[9px] md:text-[10px] font-black uppercase text-[#04235c] tracking-widest bg-white/40 backdrop-blur-md px-2 md:px-3 py-1.5 rounded-full">BLN:</span>
+                <span className="text-[9px] md:text-[10px] font-black uppercase text-[#8f8278] tracking-widest bg-[#fcfaf7] px-2 md:px-3 py-1.5 rounded-full border border-[#e8d8c8]">BLN:</span>
                 <select 
                   value={selectedMonth} 
                   onChange={(e) => setSelectedMonth(e.target.value)} 
-                  className="appearance-none border-none rounded-lg md:rounded-xl px-2 md:px-4 py-1.5 md:py-2 md:pr-8 text-[10px] md:text-xs font-bold text-slate-800 bg-white/80 focus:ring-2 focus:ring-[#04235c] uppercase shadow-sm cursor-pointer"
+                  className="appearance-none border border-[#e8d8c8] rounded-lg md:rounded-xl px-2 md:px-4 py-1.5 md:py-2 md:pr-8 text-[10px] md:text-xs font-bold text-[#2b2724] bg-white focus:ring-2 focus:ring-[#8aa7c2] uppercase shadow-sm cursor-pointer hover:bg-[#fcfaf7]"
                 >
                   <option value="ALL">SEMUA</option>
                   {availableMonths.map(m => (
@@ -589,39 +614,39 @@ const Dashboard = () => {
           </div>
 
           <div className="p-3 md:p-6 w-full max-w-full overflow-hidden">
-            <div className="w-full overflow-x-auto border border-white bg-white/30 rounded-xl md:rounded-2xl shadow-sm scroll-smooth">
+            <div className="w-full overflow-x-auto border border-[#e8d8c8] bg-white shadow-sm scroll-smooth rounded-xl md:rounded-2xl">
               <table className="w-full text-[10px] md:text-xs border-collapse">
                 <thead>
-                  <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[9px] font-black text-center uppercase tracking-wider">
-                    <th className="py-2 md:py-3 px-3 border-r border-white/20 align-middle text-left min-w-[100px]" rowSpan="2">JENIS PEKERJAAN</th>
-                    <th className="py-1.5 md:py-2 px-2 border-b border-r border-white/20" colSpan="2">MATARAM</th>
-                    <th className="py-1.5 md:py-2 px-2 border-b border-r border-white/20" colSpan="2">KUPANG</th>
-                    <th className="py-1.5 md:py-2 px-2 border-b border-r border-white/20" colSpan="2">FLORES</th>
-                    <th className="py-1.5 md:py-2 px-2 border-b border-white/20 bg-blue-600" colSpan="2">GRAND TOTAL</th>
+                  <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[9px] font-black text-center uppercase tracking-wider">
+                    <th className="py-2 md:py-3 px-3 border-r border-[#e8d8c8] align-middle text-left min-w-[100px]" rowSpan="2">JENIS PEKERJAAN</th>
+                    <th className="py-1.5 md:py-2 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">MATARAM</th>
+                    <th className="py-1.5 md:py-2 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">KUPANG</th>
+                    <th className="py-1.5 md:py-2 px-2 border-b border-r border-[#e8d8c8]" colSpan="2">FLORES</th>
+                    <th className="py-1.5 md:py-2 px-2 border-b border-[#e8d8c8] bg-[#ebd5c1]" colSpan="2">GRAND TOTAL</th>
                   </tr>
-                  <tr className="bg-[#04235c] text-white/90 text-[7px] md:text-[8px] font-black text-center uppercase tracking-wider">
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20">JML</th>
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20 min-w-[70px]">NILAI DPP</th>
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20">JML</th>
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20 min-w-[70px]">NILAI DPP</th>
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20">JML</th>
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20 min-w-[70px]">NILAI DPP</th>
-                    <th className="py-1.5 md:py-2 px-2 border-r border-white/20 bg-blue-600">JML</th>
-                    <th className="py-1.5 md:py-2 px-2 border-white/20 bg-blue-600 min-w-[80px]">NILAI DPP</th>
+                  <tr className="bg-[#f7ece1] text-[#4a3f38] text-[7px] md:text-[8px] font-black text-center uppercase tracking-wider">
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8]">JML</th>
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th>
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8]">JML</th>
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th>
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8]">JML</th>
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8] min-w-[70px]">NILAI DPP</th>
+                    <th className="py-1.5 md:py-2 px-2 border-r border-[#e8d8c8] bg-[#ebd5c1]">JML</th>
+                    <th className="py-1.5 md:py-2 px-2 border-[#e8d8c8] bg-[#ebd5c1] min-w-[80px]">NILAI DPP</th>
                   </tr>
                 </thead>
                 <tbody>
                   {planGrRows}
-                  <tr className="bg-slate-100/50 backdrop-blur-md text-[#04235c] font-black text-[9px] md:text-[11px] whitespace-nowrap">
-                    <td className="py-2.5 md:py-3 px-3 text-left border-t border-r border-white uppercase">Grand Total</td>
-                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-white">{grandMtrC_GR}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-r border-white">{formatNumberDot(grandMtrV_GR)}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-white">{grandKpgC_GR}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-r border-white">{formatNumberDot(grandKpgV_GR)}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-white">{grandFlsC_GR}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-r border-white">{formatNumberDot(grandFlsV_GR)}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-white bg-blue-100/80">{grandMtrC_GR + grandKpgC_GR + grandFlsC_GR}</td>
-                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-white bg-blue-100/80">{formatNumberDot(grandMtrV_GR + grandKpgV_GR + grandFlsV_GR)}</td>
+                  <tr className="bg-[#ebd5c1] text-[#2b2724] font-black text-[9px] md:text-[11px] whitespace-nowrap">
+                    <td className="py-2.5 md:py-3 px-3 text-left border-t border-r border-[#dccaba] uppercase">Grand Total</td>
+                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-[#dccaba]">{grandMtrC_GR}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-r border-[#dccaba]">{formatNumberDot(grandMtrV_GR)}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-[#dccaba]">{grandKpgC_GR}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-r border-[#dccaba]">{formatNumberDot(grandKpgV_GR)}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-[#dccaba]">{grandFlsC_GR}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-r border-[#dccaba]">{formatNumberDot(grandFlsV_GR)}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-center border-t border-r border-[#dccaba] bg-[#dccaba]/50">{grandMtrC_GR + grandKpgC_GR + grandFlsC_GR}</td>
+                    <td className="py-2.5 md:py-3 px-3 text-right border-t border-[#dccaba] bg-[#dccaba]/50">{formatNumberDot(grandMtrV_GR + grandKpgV_GR + grandFlsV_GR)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -630,36 +655,36 @@ const Dashboard = () => {
         </div>
 
         {/* 1. TABEL MATRIX - JUMLAH BERKAS (COUNT) */}
-        <div className="w-full bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-          <div className="bg-[#04235c] px-4 md:px-6 py-4 md:py-5 font-black text-white flex justify-between items-center">
+        <div className="w-full bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] overflow-hidden mb-6 md:mb-8 shadow-sm">
+          <div className="bg-[#fcfaf7] px-4 md:px-6 py-4 md:py-5 font-black text-[#2b2724] flex justify-between items-center border-b border-[#e8d8c8]">
             <span className="tracking-widest uppercase text-[11px] md:text-[13px]">STATUS PER MITRA (JML)</span>
-            <span className="text-[8px] md:text-[10px] text-blue-200 bg-blue-800 px-2 py-1 rounded md:hidden">SWIPE KIRI ➔</span>
+            <span className="text-[8px] md:text-[10px] text-[#8f8278] bg-white px-2 py-1 rounded md:hidden border border-[#e8d8c8]">SWIPE KIRI ➔</span>
           </div>
-          <div className="w-full overflow-x-auto relative p-1 md:p-2 scroll-smooth">
+          <div className="w-full overflow-x-auto relative p-1 md:p-2 scroll-smooth bg-white">
             <table className="w-full text-[9px] border-collapse whitespace-nowrap">
               <thead>
-                <tr className="bg-slate-100 text-[#04235c] font-black text-center uppercase tracking-wider">
-                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-white align-middle sticky left-0 bg-slate-100 z-20 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.1)] text-left">NAMA MITRA</th>
+                <tr className="bg-white text-[#8f8278] font-black text-center uppercase tracking-wider border-b-2 border-[#fcfaf7]">
+                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-[#e8d8c8] align-middle sticky left-0 bg-white z-20 shadow-[2px_0_10px_-2px_rgba(43,39,36,0.05)] text-left">NAMA MITRA</th>
                   {mitraColumns.map(col => (
-                    <th key={col} className="py-2 md:py-3 px-2 border-b border-white min-w-[80px] md:min-w-[90px] break-words whitespace-normal leading-snug">{col}</th>
+                    <th key={col} className="py-2 md:py-3 px-2 border-b border-[#e8d8c8] min-w-[80px] md:min-w-[90px] break-words whitespace-normal leading-snug">{col}</th>
                   ))}
-                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-white align-middle sticky right-0 bg-blue-100 text-[#04235c] z-20 shadow-[-2px_0_10px_-2px_rgba(0,0,0,0.1)]">TOTAL BERKAS</th>
+                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-[#e8d8c8] align-middle sticky right-0 bg-[#f0e0ce] text-[#2b2724] z-20 shadow-[-2px_0_10px_-2px_rgba(43,39,36,0.1)]">TOTAL BERKAS</th>
                 </tr>
               </thead>
               <tbody>
                 {mitraRowsCountHTML.length > 0 ? mitraRowsCountHTML : (
                   <tr>
-                    <td colSpan={mitraColumns.length + 2} className="text-center py-6 md:py-8 font-black text-slate-400 tracking-widest bg-white/30">TIDAK ADA DATA MITRA</td>
+                    <td colSpan={mitraColumns.length + 2} className="text-center py-6 md:py-8 font-black text-[#8f8278] tracking-widest bg-white">TIDAK ADA DATA MITRA</td>
                   </tr>
                 )}
-                <tr className="bg-[#04235c] text-white font-black text-[9px] md:text-[10px]">
-                  <td className="py-2 md:py-3 px-3 md:px-4 text-left uppercase sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.3)]">GRAND TOTAL</td>
+                <tr className="bg-[#f0e0ce] text-[#2b2724] font-black text-[9px] md:text-[10px]">
+                  <td className="py-2 md:py-3 px-3 md:px-4 text-left uppercase sticky left-0 bg-[#f0e0ce] z-20 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.1)]">GRAND TOTAL</td>
                   {colCountsMitra.map((tot, idx) => (
-                    <td key={idx} className="py-2 md:py-3 px-2 border-r border-white/10 text-center">
+                    <td key={idx} className="py-2 md:py-3 px-2 border-r border-[#dccaba] text-center">
                       {tot > 0 ? formatNumberDot(tot) : ''}
                     </td>
                   ))}
-                  <td className="py-2 md:py-3 px-3 md:px-4 text-center sticky right-0 bg-blue-600 z-20 shadow-[-2px_0_10px_-2px_rgba(0,0,0,0.3)]">
+                  <td className="py-2 md:py-3 px-3 md:px-4 text-center sticky right-0 bg-[#dccaba] text-[#2b2724] z-20 shadow-[-2px_0_10px_-2px_rgba(0,0,0,0.1)]">
                     {allGrandCountMitra > 0 ? formatNumberDot(allGrandCountMitra) : ''}
                   </td>
                 </tr>
@@ -669,36 +694,36 @@ const Dashboard = () => {
         </div>
 
         {/* 2. TABEL MATRIX - NILAI DPP */}
-        <div className="w-full bg-white/50 backdrop-blur-xl border border-white/60 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8 md:mb-10">
-          <div className="bg-[#04235c] px-4 md:px-6 py-4 md:py-5 font-black text-white flex justify-between items-center">
+        <div className="w-full bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] overflow-hidden shadow-sm mb-8 md:mb-10">
+          <div className="bg-[#fcfaf7] px-4 md:px-6 py-4 md:py-5 font-black text-[#2b2724] flex justify-between items-center border-b border-[#e8d8c8]">
             <span className="tracking-widest uppercase text-[11px] md:text-[13px]">STATUS PER MITRA (NILAI DPP)</span>
-            <span className="text-[8px] md:text-[10px] text-blue-200 bg-blue-800 px-2 py-1 rounded md:hidden">SWIPE KIRI ➔</span>
+            <span className="text-[8px] md:text-[10px] text-[#8f8278] bg-white px-2 py-1 rounded md:hidden border border-[#e8d8c8]">SWIPE KIRI ➔</span>
           </div>
-          <div className="w-full overflow-x-auto relative p-1 md:p-2 scroll-smooth">
+          <div className="w-full overflow-x-auto relative p-1 md:p-2 scroll-smooth bg-white">
             <table className="w-full text-[9px] border-collapse whitespace-nowrap">
               <thead>
-                <tr className="bg-slate-100 text-[#04235c] font-black text-center uppercase tracking-wider">
-                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-white align-middle sticky left-0 bg-slate-100 z-20 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.1)] text-left">NAMA MITRA</th>
+                <tr className="bg-white text-[#8f8278] font-black text-center uppercase tracking-wider border-b-2 border-[#fcfaf7]">
+                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-[#e8d8c8] align-middle sticky left-0 bg-white z-20 shadow-[2px_0_10px_-2px_rgba(43,39,36,0.05)] text-left">NAMA MITRA</th>
                   {mitraColumns.map(col => (
-                    <th key={col} className="py-2 md:py-3 px-2 border-b border-white min-w-[80px] md:min-w-[90px] break-words whitespace-normal leading-snug">{col}</th>
+                    <th key={col} className="py-2 md:py-3 px-2 border-b border-[#e8d8c8] min-w-[80px] md:min-w-[90px] break-words whitespace-normal leading-snug">{col}</th>
                   ))}
-                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-white align-middle sticky right-0 bg-blue-100 text-[#04235c] z-20 shadow-[-2px_0_10px_-2px_rgba(0,0,0,0.1)]">NILAI DPP</th>
+                  <th className="py-2 md:py-3 px-3 md:px-4 border-b border-[#e8d8c8] align-middle sticky right-0 bg-[#f0e0ce] text-[#2b2724] z-20 shadow-[-2px_0_10px_-2px_rgba(43,39,36,0.1)]">NILAI DPP</th>
                 </tr>
               </thead>
               <tbody>
                 {mitraRowsValueHTML.length > 0 ? mitraRowsValueHTML : (
                   <tr>
-                    <td colSpan={mitraColumns.length + 2} className="text-center py-6 md:py-8 font-black text-slate-400 tracking-widest bg-white/30">TIDAK ADA DATA MITRA</td>
+                    <td colSpan={mitraColumns.length + 2} className="text-center py-6 md:py-8 font-black text-[#8f8278] tracking-widest bg-white">TIDAK ADA DATA MITRA</td>
                   </tr>
                 )}
-                <tr className="bg-[#04235c] text-white font-black text-[9px] md:text-[10px]">
-                  <td className="py-2 md:py-3 px-3 md:px-4 text-left uppercase sticky left-0 bg-[#04235c] z-20 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.3)]">GRAND TOTAL</td>
+                <tr className="bg-[#f0e0ce] text-[#2b2724] font-black text-[9px] md:text-[10px]">
+                  <td className="py-2 md:py-3 px-3 md:px-4 text-left uppercase sticky left-0 bg-[#f0e0ce] z-20 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.1)]">GRAND TOTAL</td>
                   {colTotalsMitra.map((tot, idx) => (
-                    <td key={idx} className="py-2 md:py-3 px-2 border-r border-white/10 text-right">
+                    <td key={idx} className="py-2 md:py-3 px-2 border-r border-[#dccaba] text-right">
                       {tot > 0 ? formatNumberDot(tot) : ''}
                     </td>
                   ))}
-                  <td className="py-2 md:py-3 px-3 md:px-4 text-right sticky right-0 bg-blue-600 z-20 shadow-[-2px_0_10px_-2px_rgba(0,0,0,0.3)]">
+                  <td className="py-2 md:py-3 px-3 md:px-4 text-right sticky right-0 bg-[#dccaba] text-[#2b2724] z-20 shadow-[-2px_0_10px_-2px_rgba(0,0,0,0.1)]">
                     {allGrandTotalMitra > 0 ? formatNumberDot(allGrandTotalMitra) : ''}
                   </td>
                 </tr>
