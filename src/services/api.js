@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycby8VQ8OIzLkPTpPFGXyttP0eLyLoA8bSccUGxpJ35uwtwL9oCLFrhCtje0cLREq5Tzx4g/exec";
-
 /**
  * ============================================================
  * GET DASHBOARD DATA
@@ -97,6 +96,32 @@ export const getDashboardData = async () => {
 
 /**
  * ============================================================
+ * LOG VERIFIKASI / DATA SKRIPSI
+ * ============================================================
+ *
+ * Mengirimkan hasil verifikasi (akurasi OCR & PSNR) ke Google
+ * Sheets via Apps Script endpoint. Digunakan untuk mengumpulkan
+ * data evaluasi skripsi (sebelum vs sesudah penajaman Real-ESRGAN).
+ */
+export const logVerificationResult = async (payload) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: API_URL,
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8", // dibutuhkan utk CORS Apps Script
+      },
+      data: JSON.stringify({ action: "logVerification", ...payload }),
+    });
+    return res.data;
+  } catch (error) {
+    console.error("ERROR LOG VERIFICATION:", error);
+    throw error;
+  }
+};
+
+/**
+ * ============================================================
  * API URL
  * ============================================================
  *
@@ -115,4 +140,5 @@ export const getApiUrl = () => {
 export default {
   getDashboardData,
   getApiUrl,
+  logVerificationResult,
 };

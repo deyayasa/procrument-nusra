@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useDashboard from "../hooks/useDashboard.js"; 
 import { formatNumberDot } from "../utils/dashboardCalculations.js"; 
 
@@ -7,7 +8,7 @@ const Dashboard = () => {
   const [selectedYear, setSelectedYear] = useState('ALL');
   const [selectedPlanGrYear, setSelectedPlanGrYear] = useState('ALL');
   const [selectedMonth, setSelectedMonth] = useState('ALL');
-  
+
   const { summary, loading, error } = useDashboard(selectedBranch, selectedYear, selectedMonth);
 
   const metrics = summary?.metrics || {};
@@ -281,6 +282,14 @@ const Dashboard = () => {
                 ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 md:px-4 text-[#8f8278]">▼</div>
+            </div>
+            <div className="flex flex-row gap-2 md:gap-3 mt-3 sm:mt-0 w-full sm:w-auto">
+              <Link
+                to="/verifikasi"
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl md:rounded-2xl text-xs font-black uppercase tracking-widest text-white bg-gradient-to-r from-[#d87c7c] to-[#c56363] shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all border border-[#c56363] cursor-pointer"
+              >
+                <span className="text-sm leading-none">✓</span> Verifikasi Berkas
+              </Link>
             </div>
           </div>
         </div>
@@ -757,8 +766,13 @@ const Dashboard = () => {
         </div>
         
       </div>
+
     </div>
   );
 };
 
 export default Dashboard;
+
+
+
+
