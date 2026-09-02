@@ -20,5 +20,5 @@ export default defineConfig({
       ],
     }),
   ],
-  base: "/procrument-nusra",
+  base: "/procrument-nusa",
 });
