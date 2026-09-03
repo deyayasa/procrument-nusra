@@ -14,46 +14,18 @@ self.onmessage = async (e) => {
       const resp = await fetch(msg.modelUrl);
       const buf = new Uint8Array(await resp.arrayBuffer());
 
-      // Coba WebGPU dulu, fallback ke WASM
-      let providers = [];
-      if (typeof navigator !== 'undefined' && navigator.gpu) {
-        try {
-          const adapter = await navigator.gpu.requestAdapter();
-          if (adapter) {
-            providers = ['webgpu', 'wasm'];
-          }
-        } catch (err) {
-          console.log('[ortWorker] WebGPU tidak tersedia:', err.message);
-        }
-      }
-
-      if (providers.length === 0) {
-        providers = ['wasm'];
-      }
-
-      // Coba buat session dengan provider yang dipilih
-      for (const ep of providers) {
-        try {
-          session = await ort.InferenceSession.create(buf, {
-            executionProviders: [ep],
-            graphOptimizationLevel: 'all',
-          });
-          activeProvider = ep;
-          console.log(`[ortWorker] Session aktif: ${ep}`);
-          break;
-        } catch (err) {
-          console.warn(`[ortWorker] Gagal pakai ${ep}:`, err.message);
-          session = null;
-        }
-      }
-
-      // Fallback terakhir: WASM pasti jalan
-      if (!session) {
+      // Real-ESRGAN ONNX tidak kompatibel dengan WebGPU (Conv kernel gagal).
+      // Paksa WASM yang pasti jalan untuk semua ONNX model.
+      try {
         session = await ort.InferenceSession.create(buf, {
           executionProviders: ['wasm'],
           graphOptimizationLevel: 'all',
         });
         activeProvider = 'wasm';
+        console.log(`[ortWorker] Session aktif: wasm`);
+      } catch (err) {
+        console.error(`[ortWorker] Gagal buat session WASM:`, err.message);
+        throw err;
       }
 
       self.postMessage({
@@ -69,14 +41,21 @@ self.onmessage = async (e) => {
     try {
       const input = new ort.Tensor('float32', new Float32Array(msg.tensorData), msg.dims);
       const feeds = { [session.inputNames[0]]: input };
+
+      console.log(`[ortWorker] Inference dimulai — input dims: ${msg.dims}`);
+
       const results = await session.run(feeds);
       const output = results[session.outputNames[0]];
+
+      console.log(`[ortWorker] Inference selesai — output dims: ${output.dims}`);
+
       self.postMessage({
         type: 'result',
         tensorData: output.data,
         dims: output.dims,
       }, [output.data.buffer]);
     } catch (err) {
+      console.error('[ortWorker] Inference error:', err.message);
       self.postMessage({ type: 'error', message: err.message });
     }
   }

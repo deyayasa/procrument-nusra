@@ -1,20 +1,22 @@
 // Super-resolution service — ONNX Real-ESRGAN dijalankan di Web Worker.
-// WebGPU dulu (GPU, cepat), fallback WASM (CPU, lebih kecil input).
+// Real-ESRGAN tidak kompatibel dengan WebGPU, pakai WASM (CPU).
 
 const BASE = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
-// Max input: WebGPU=512 (GPU cepat), WASM=256 (CPU lambat)
-const MAX_WEBGPU = 512;
-const MAX_WASM = 256;
+// WASM only (WebGPU gagal untuk model ini)
+const MAX_INPUT_SIZE = 512;
 
 let worker = null;
 let modelReady = false;
 let activeProvider = 'wasm';
-let maxInputSize = MAX_WASM;
 let readyResolve = null;
-const readyPromise = new Promise((r) => { readyResolve = r; });
+let readyReject = null;
+const readyPromise = new Promise((resolve, reject) => {
+  readyResolve = resolve;
+  readyReject = reject;
+});
 
 function getWorker() {
   if (worker) return worker;
@@ -29,17 +31,18 @@ function getWorker() {
     if (msg.type === 'ready') {
       modelReady = true;
       activeProvider = msg.provider || 'wasm';
-      maxInputSize = activeProvider === 'webgpu' ? MAX_WEBGPU : MAX_WASM;
-      console.log(`[RealESRGAN] Provider: ${activeProvider} | Max input: ${maxInputSize}px`);
+      console.log(`[RealESRGAN] Provider: ${activeProvider} | Max input: ${MAX_INPUT_SIZE}px`);
       if (readyResolve) readyResolve();
     }
     if (msg.type === 'error') {
       console.error('[RealESRGAN Worker]', msg.message);
+      if (readyReject) readyReject(new Error(msg.message));
     }
   };
 
   worker.onerror = (err) => {
     console.error('[RealESRGAN Worker] error:', err.message);
+    if (readyReject) readyReject(err);
   };
 
   return worker;
@@ -51,8 +54,8 @@ function preprocessImage(imageSource) {
 
   let w = img.width;
   let h = img.height;
-  if (w > maxInputSize || h > maxInputSize) {
-    const scale = maxInputSize / Math.max(w, h);
+  if (w > MAX_INPUT_SIZE || h > MAX_INPUT_SIZE) {
+    const scale = MAX_INPUT_SIZE / Math.max(w, h);
     w = Math.round(w * scale);
     h = Math.round(h * scale);
   }
@@ -119,7 +122,7 @@ export function getActiveProvider() {
 }
 
 export function getMaxInputSize() {
-  return maxInputSize;
+  return MAX_INPUT_SIZE;
 }
 
 export async function loadModel() {
@@ -127,7 +130,7 @@ export async function loadModel() {
 
   const w = getWorker();
   const modelUrl = `${BASE}models/RealESRGAN_x4.onnx`;
-  console.log('[RealESRGAN] Memuat model via Web Worker:', modelUrl);
+  console.log('[RealESRGAN] Memuat model via Web Worker (WASM):', modelUrl);
   w.postMessage({ type: 'init', modelUrl });
 
   await readyPromise;
@@ -148,7 +151,21 @@ export async function superResolve(imageSource) {
         const resultData = msg.tensorData instanceof Float32Array
           ? msg.tensorData
           : new Float32Array(msg.tensorData);
-        resolve(postprocess(resultData, msg.dims[2], msg.dims[3]));
+
+        // Validasi: output harus 4x lebih besar dari input
+        const inputH = dims[2];
+        const inputW = dims[3];
+        const outputH = msg.dims[2];
+        const outputW = msg.dims[3];
+
+        console.log(`[RealESRGAN] Input: ${inputW}x${inputH} → Output: ${outputW}x${outputH}`);
+
+        if (outputH <= inputH || outputW <= inputW) {
+          reject(new Error(`Output tidak valid: ${outputW}x${outputH} (input: ${inputW}x${inputH}). ESRGAN tidak menghasilkan upscale.`));
+          return;
+        }
+
+        resolve(postprocess(resultData, outputH, outputW));
       }
       if (msg.type === 'error') {
         worker.removeEventListener('message', handleMessage);

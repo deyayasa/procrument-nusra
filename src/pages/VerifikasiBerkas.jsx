@@ -33,6 +33,7 @@ const VerifikasiBerkas = () => {
   const [qualityLoading, setQualityLoading] = useState(false);
   const [previewModal, setPreviewModal] = useState(null);
   const [forceEsrgran, setForceEsrgran] = useState(true);
+  const [esrganError, setEsrgranError] = useState(null);
   const inputRef = useRef(null);
 
   const loadModelClick = useCallback(async () => {
@@ -243,12 +244,15 @@ const VerifikasiBerkas = () => {
         const t1 = performance.now();
         if (isPoor) {
           setStage(STAGE.SUPER_RES);
-          setProgress(`${progressPage} 🔴 Penajaman super-resolution (Real-ESRGAN)...`);
+          setProgress(`${progressPage} 🔴 Penajaman super-resolution (Real-ESRGAN via WASM)...`);
           try {
             entry.afterCanvas = await superResolve(page);
+            setEsrgranError(null);
           } catch (e) {
-            console.error(e);
+            console.error('[ESRGAN] Gagal:', e.message);
+            setEsrgranError(`Hal ${pageIdx}: ${e.message}`);
             entry.afterCanvas = page;
+            entry.skippedEsrgran = true;
           }
           timings.superRes = ((performance.now() - t1) / 1000).toFixed(1);
         } else {
@@ -515,6 +519,15 @@ const VerifikasiBerkas = () => {
               <span className="inline-block w-4 h-4 border-2 border-[#8aa7c2] border-t-transparent rounded-full animate-spin"></span>
               {progress}
             </div>
+          </div>
+        )}
+
+        {/* ESRGAN Error */}
+        {esrganError && (
+          <div className="bg-red-50 border border-red-300 rounded-2xl p-4">
+            <p className="text-xs font-black uppercase tracking-widest text-red-600 mb-1">⚠️ ESRGAN Error</p>
+            <p className="text-xs text-red-700 font-semibold">{esrganError}</p>
+            <p className="text-[10px] text-red-500 mt-1">Gambar menggunakan versi asli (tanpa penajaman).</p>
           </div>
         )}
 
