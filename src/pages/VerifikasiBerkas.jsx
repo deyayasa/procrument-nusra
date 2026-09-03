@@ -31,6 +31,8 @@ const VerifikasiBerkas = () => {
   const [logStatus, setLogStatus] = useState('');
   const [qualityResults, setQualityResults] = useState(null);
   const [qualityLoading, setQualityLoading] = useState(false);
+  const [previewModal, setPreviewModal] = useState(null);
+  const [forceEsrgran, setForceEsrgran] = useState(true);
   const inputRef = useRef(null);
 
   const loadModelClick = useCallback(async () => {
@@ -206,7 +208,7 @@ const VerifikasiBerkas = () => {
         const qualityInfo = qualityResults?.find(
           (q) => q.fileName === f.name && q.pageIdx === pageIdx - 1
         );
-        const isPoor = qualityInfo ? qualityInfo.quality === 'poor' : true;
+        const isPoor = forceEsrgran ? true : (qualityInfo ? qualityInfo.quality === 'poor' : true);
         const qualityScore = qualityInfo?.score ?? 0;
 
         const entry = {
@@ -474,6 +476,23 @@ const VerifikasiBerkas = () => {
                 </div>
               )}
 
+              {/* Toggle: Force ESRGAN */}
+              <div className="flex items-center gap-3 mt-3 p-3 bg-[#fcfaf7] border border-[#e8d8c8] rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setForceEsrgran(!forceEsrgran)}
+                  className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${forceEsrgran ? 'bg-[#8aa7c2]' : 'bg-[#d1c8bb]'}`}
+                >
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${forceEsrgran ? 'translate-x-5' : ''}`}></span>
+                </button>
+                <div className="text-xs">
+                  <span className="font-black text-[#2b2724]">Proses semua halaman dengan ESRGAN</span>
+                  <p className="text-[10px] text-[#8f8278] font-semibold mt-0.5">
+                    {forceEsrgran ? 'Semua halaman diproses ESRGAN (data lengkap untuk skripsi)' : 'Hanya gambar jelek yang diproses ESRGAN (lebih cepat)'}
+                  </p>
+                </div>
+              </div>
+
               <button
                 onClick={run}
                 disabled={!modelReady || files.length === 0 || stage === STAGE.SUPER_RES || stage === STAGE.BASELINE_OCR || stage === STAGE.OCR_ENHANCED}
@@ -538,8 +557,18 @@ const VerifikasiBerkas = () => {
               <div className="flex flex-col gap-6">
                 {/* Preview gambar sebelum/sesudah */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <PreviewCard title={`Sebelum Penajaman — ${current.fileName} (hal ${current.pageNo})`} url={beforeUrl} psnr={null} />
-                  <PreviewCard title="Sesudah Penajaman (Real-ESRGAN 4x)" url={afterUrl} psnr={current.psnr} />
+                  <PreviewCard
+                    title={`Sebelum Penajaman — ${current.fileName} (hal ${current.pageNo})`}
+                    url={beforeUrl}
+                    psnr={null}
+                    onClick={() => setPreviewModal({ url: beforeUrl, title: `Sebelum Penajaman — ${current.fileName} (hal ${current.pageNo})` })}
+                  />
+                  <PreviewCard
+                    title="Sesudah Penajaman (Real-ESRGAN 4x)"
+                    url={afterUrl}
+                    psnr={current.psnr ?? 'N/A'}
+                    onClick={() => setPreviewModal({ url: afterUrl, title: `Sesudah Penajaman — ${current.fileName} (hal ${current.pageNo})` })}
+                  />
                 </div>
 
                 {/* Teks OCR */}
@@ -552,6 +581,15 @@ const VerifikasiBerkas = () => {
           </div>
         )}
       </div>
+
+      {/* Preview Modal */}
+      {previewModal && (
+        <PreviewModal
+          url={previewModal.url}
+          title={previewModal.title}
+          onClose={() => setPreviewModal(null)}
+        />
+      )}
     </div>
   );
 };
@@ -574,20 +612,54 @@ const Metric = ({ label, value, unit }) => (
   </div>
 );
 
-const PreviewCard = ({ title, url, psnr }) => (
-  <div className="bg-white border border-[#dccaba] rounded-2xl p-4">
+const PreviewCard = ({ title, url, psnr, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="bg-white border border-[#dccaba] rounded-2xl p-4 text-left cursor-pointer hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all w-full group"
+  >
     <div className="flex items-center justify-between mb-2">
       <p className="text-[10px] font-black uppercase tracking-widest text-[#8f8278]">{title}</p>
       {psnr != null && psnr !== 'N/A' && <span className="text-[10px] font-black text-green-600">PSNR {Number(psnr).toFixed(2)} dB</span>}
       {psnr === 'N/A' && <span className="text-[10px] font-black text-[#8aa7c2]">Skip ESRGAN</span>}
     </div>
     {url ? (
-      <img src={url} alt={title} className="w-full h-64 object-contain bg-[#f6efe6] rounded-xl border border-[#e8d8c8]" />
+      <div className="relative">
+        <img src={url} alt={title} className="w-full h-64 object-contain bg-[#f6efe6] rounded-xl border border-[#e8d8c8]" />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 rounded-xl transition-all flex items-center justify-center">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-xs font-bold px-3 py-1.5 rounded-lg">
+            🔍 Klik untuk lihat full-size
+          </span>
+        </div>
+      </div>
     ) : (
       <div className="w-full h-64 flex items-center justify-center text-[#8f8278] text-xs font-bold bg-[#f6efe6] rounded-xl border border-[#e8d8c8]">Tidak tersedia</div>
     )}
-  </div>
+  </button>
 );
+
+const PreviewModal = ({ url, title, onClose }) => {
+  if (!url) return null;
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div className="relative max-w-5xl w-full max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs font-black uppercase tracking-widest text-white">{title}</p>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 text-white text-sm font-bold cursor-pointer transition-all"
+          >
+            ✕
+          </button>
+        </div>
+        <img src={url} alt={title} className="w-full max-h-[80vh] object-contain rounded-xl" />
+      </div>
+    </div>
+  );
+};
 
 const OcrCard = ({ title, text, acc }) => (
   <div className="bg-white border border-[#dccaba] rounded-2xl p-4">

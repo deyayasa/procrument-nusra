@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import useDashboard from "../hooks/useDashboard.js"; 
-import { formatNumberDot } from "../utils/dashboardCalculations.js"; 
+import useDashboard from "../hooks/useDashboard.js";
+import { formatNumberDot } from "../utils/dashboardCalculations.js";
 
 const Dashboard = () => {
   const [selectedBranch, setSelectedBranch] = useState('ALL');
@@ -14,9 +14,9 @@ const Dashboard = () => {
   const metrics = summary?.metrics || {};
   const tables = summary?.tables || {};
   const availableYears = summary?.availableYears || [];
-  
+
   const availableMonths = [
-    "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", 
+    "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI",
     "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
   ];
 
@@ -33,13 +33,13 @@ const Dashboard = () => {
   const pctCash = chartTotal > 0 ? (cashBankValue / chartTotal) * 100 : 0;
   const pctOgp = chartTotal > 0 ? (dokOgpValue / chartTotal) * 100 : 0;
   const pctCancel = chartTotal > 0 ? (cancelValue / chartTotal) * 100 : 0;
-  
+
   const endCash = pctCash;
   const endOgp = endCash + pctOgp;
 
-  const barTotalOpen = nokDokValue + openDokValue; 
-  const barNokDok = nokDokValue; 
-  const barOpenDok = openDokValue; 
+  const barTotalOpen = nokDokValue + openDokValue;
+  const barNokDok = nokDokValue;
+  const barOpenDok = openDokValue;
   const pctNokDok = barTotalOpen > 0 ? (barNokDok / barTotalOpen) * 100 : 0;
   const pctOpenDok = barTotalOpen > 0 ? (barOpenDok / barTotalOpen) * 100 : 0;
 
@@ -52,17 +52,17 @@ const Dashboard = () => {
     let grandKpgC = 0, grandKpgV = 0;
     let grandFlsC = 0, grandFlsV = 0;
     const safeMap = mapData || {};
-    
+
     const rows = Object.keys(safeMap).map((status, idx) => {
-      const item = safeMap[status] || { 
-        mataram: { count: 0, nilaiDPP: 0 }, 
+      const item = safeMap[status] || {
+        mataram: { count: 0, nilaiDPP: 0 },
         kupang: { count: 0, nilaiDPP: 0 },
         flores: { count: 0, nilaiDPP: 0 }
       };
       grandMtrC += item.mataram.count; grandMtrV += item.mataram.nilaiDPP;
       grandKpgC += item.kupang.count; grandKpgV += item.kupang.nilaiDPP;
       grandFlsC += (item.flores?.count || 0); grandFlsV += (item.flores?.nilaiDPP || 0);
-      
+
       return (
         <tr key={idx} className="border-b border-[#e8d8c8] hover:bg-[#fcf8f2] text-[10px] text-[#4a3f38] font-semibold bg-white whitespace-nowrap transition-all duration-300">
           <td className="py-2 px-3 border-r border-[#e8d8c8] uppercase">{status}</td>
@@ -96,7 +96,7 @@ const Dashboard = () => {
   const defaultJpList = ['KONSTRUKSI', 'MS CAPEX', 'MS OPEX', 'PROVISIONING', 'SDI', 'KELOLA NTE', 'DISMANTLING'];
   const jenisPekerjaanList = [...defaultJpList];
   Object.keys(planGrMap).forEach(k => { if (!jenisPekerjaanList.includes(k) && k !== '') jenisPekerjaanList.push(k); });
-  
+
   let grandMtrC_GR = 0, grandMtrV_GR = 0;
   let grandKpgC_GR = 0, grandKpgV_GR = 0;
   let grandFlsC_GR = 0, grandFlsV_GR = 0;
@@ -105,7 +105,7 @@ const Dashboard = () => {
     const rowMonths = planGrMap[jp] || {};
     let mtrC = 0, mtrV = 0, kpgC = 0, kpgV = 0, flsC = 0, flsV = 0;
 
-    Object.keys(rowMonths).forEach(key => { 
+    Object.keys(rowMonths).forEach(key => {
       const [kYear, kMonth] = key.split('_');
       let matchYear = selectedPlanGrYear === 'ALL' || kYear === selectedPlanGrYear;
       let matchMonth = selectedMonth === 'ALL' || kMonth === selectedMonth;
@@ -230,7 +230,7 @@ const Dashboard = () => {
   return (
     // Background Warm Sand / Beige
     <div className="min-h-screen bg-[#ebdcd0] relative overflow-x-hidden w-full max-w-[100vw] p-3 md:p-6 font-sans text-[#2b2724]">
-      
+
       {/* 🌟 ABSTRACT GLOWING AURA BACKGROUND (Soft Blue, Red, Yellow Pastel) 🌟 */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[70vw] md:w-[50vw] h-[70vw] md:h-[50vw] rounded-full bg-[#8aa7c2]/20 blur-[100px] md:blur-[120px]"></div>
@@ -239,7 +239,7 @@ const Dashboard = () => {
       </div>
 
       <div className="relative z-10 w-full">
-        
+
         {error && <div className="mb-4 bg-red-500/10 backdrop-blur-md text-red-600 border border-red-500/30 p-4 rounded-2xl text-sm font-bold shadow-lg">{String(error)}</div>}
 
         {/* HEADER */}
@@ -307,7 +307,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
+
           {/* White Card with Soft Yellow Accent */}
           <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
             <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#dbad69] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -319,7 +319,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
+
           {/* White Card with Soft Coral/Red Accent */}
           <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
             <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#d87c7c] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -331,7 +331,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
+
           {/* White Card with Soft Gray/Neutral Accent */}
           <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] p-5 md:p-6 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
             <div className="absolute -right-6 -top-6 w-20 md:w-24 h-20 md:h-24 bg-[#9a918a] rounded-full opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
@@ -347,15 +347,15 @@ const Dashboard = () => {
 
         {/* GRID KONTEN TENGAH */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-6 md:mb-8 w-full">
-          
+
           {/* KOLOM KIRI: DONUT CHART & BAR */}
           <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 w-full">
-            
+
             <div className="bg-white border border-[#dccaba] rounded-2xl md:rounded-[1.5rem] shadow-sm overflow-hidden p-5 md:p-6 flex flex-col items-center relative">
-              
+
               {/* 🍩 3D DONUT CHART PREMIUM (Dengan Angka Langsung di Donat) 🍩 */}
               <div className="relative mt-4 mb-14 md:mt-6 md:mb-16 flex justify-center group" style={{ perspective: '1200px' }}>
-                
+
                 {/* Aura Glow di belakang donut */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 md:w-44 md:h-44 bg-[#8aa7c2]/20 blur-[30px] rounded-full animate-pulse z-0"></div>
 
@@ -370,17 +370,17 @@ const Dashboard = () => {
                   <span className="text-[#dbad69] font-black text-[9px] md:text-[10px]">{pctCancel.toFixed(1)}%</span>
                 </div>
 
-                <div 
-                  className="relative w-40 h-40 md:w-48 md:h-48 rounded-full transition-all duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-2 z-10" 
-                  style={{ 
+                <div
+                  className="relative w-40 h-40 md:w-48 md:h-48 rounded-full transition-all duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-2 z-10"
+                  style={{
                     // Warna Chart
                     background: `conic-gradient(#8aa7c2 0% ${endCash}%, #d87c7c ${endCash}% ${endOgp}%, #dbad69 ${endOgp}% 100%)`,
                     transform: 'rotateX(60deg) rotateZ(-25deg)',
                     transformStyle: 'preserve-3d',
                     /* Efek ketebalan (Cylinder) 3D yang realistis berlapis dengan warna beige/putih */
                     boxShadow: `
-                      0 1px 0 #fcfaf7, 0 2px 0 #fcfaf7, 0 3px 0 #ebdcd0, 0 4px 0 #ebdcd0, 
-                      0 5px 0 #dccaba, 0 6px 0 #dccaba, 0 7px 0 #c4b0a1, 
+                      0 1px 0 #fcfaf7, 0 2px 0 #fcfaf7, 0 3px 0 #ebdcd0, 0 4px 0 #ebdcd0,
+                      0 5px 0 #dccaba, 0 6px 0 #dccaba, 0 7px 0 #c4b0a1,
                       0 15px 25px rgba(43,39,36,0.15)
                     `,
                   }}
@@ -389,12 +389,12 @@ const Dashboard = () => {
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/60 via-transparent to-black/5 pointer-events-none mix-blend-overlay"></div>
 
                   {/* Lubang Donut Tengah - Menampilkan Total Angka */}
-                  <div 
+                  <div
                     className="absolute inset-0 m-auto w-20 h-20 md:w-24 md:h-24 bg-white rounded-full flex flex-col items-center justify-center"
-                    style={{ 
+                    style={{
                       /* Bayangan dalam agar lubang terlihat tebal, bolong, dan dalam */
                       boxShadow: 'inset 0 6px 10px rgba(0,0,0,0.06), inset 0 2px 4px rgba(0,0,0,0.03), 0 -2px 5px rgba(255,255,255,1)',
-                      transform: 'translateZ(1px)' // Mencegah glitch border 
+                      transform: 'translateZ(1px)' // Mencegah glitch border
                     }}
                   >
                     {/* Teks di-inverse rotasinya agar berdiri tegak menghadap depan */}
@@ -402,10 +402,10 @@ const Dashboard = () => {
                       <span className="text-[7px] md:text-[8px] font-black text-[#8f8278] uppercase tracking-widest drop-shadow-sm mb-0.5">TOTAL</span>
                       <span className="text-[9px] md:text-[11px] font-black text-[#2b2724] drop-shadow-sm tracking-tighter">
                         {/* Konversi otomatis angka agar tidak kepanjangan dan muat di lubang donat */}
-                        {chartTotal >= 1000000000000 
-                          ? (chartTotal/1000000000000).toFixed(2) + ' T' 
-                          : chartTotal >= 1000000000 
-                          ? (chartTotal/1000000000).toFixed(1) + ' M' 
+                        {chartTotal >= 1000000000000
+                          ? (chartTotal/1000000000000).toFixed(2) + ' T'
+                          : chartTotal >= 1000000000
+                          ? (chartTotal/1000000000).toFixed(1) + ' M'
                           : formatNumberDot(chartTotal)}
                       </span>
                     </div>
@@ -443,7 +443,7 @@ const Dashboard = () => {
                 <span className="text-[10px] md:text-[11px] font-black text-[#8f8278] uppercase tracking-widest">TOTAL OPEN</span>
                 <span className="text-lg md:text-xl font-black text-[#2b2724] tracking-tighter">{formatNumberDot(barTotalOpen)}</span>
               </div>
-              
+
               <div className="pt-1 flex flex-col gap-3 md:gap-4">
                 <div className="flex items-center bg-white rounded-xl p-2 md:p-2.5 border border-[#e8d8c8] shadow-sm">
                   <div className="w-10 md:w-12 text-[8px] md:text-[9px] text-[#8f8278] text-center font-black leading-tight border-r border-[#e8d8c8] pr-2">NOK<br/>DOK</div>
@@ -474,7 +474,7 @@ const Dashboard = () => {
               </div>
               <span className="text-[8px] md:text-[10px] text-[#8f8278] font-bold hidden sm:block">➔ Swipe tabel ke kiri/kanan</span>
             </div>
-            
+
             <div className="flex flex-col mb-4 md:mb-6 w-full max-w-full">
               <h4 className="text-[9px] md:text-[10px] font-black text-[#8aa7c2] uppercase mb-2 tracking-widest">DOKUMEN BRANCH</h4>
               <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
@@ -545,7 +545,7 @@ const Dashboard = () => {
               </div>
               <span className="text-[8px] md:text-[10px] text-[#8f8278] font-bold hidden sm:block">➔ Swipe tabel ke kiri/kanan</span>
             </div>
-            
+
             <div className="flex flex-col mb-4 md:mb-6 w-full max-w-full">
               <h4 className="text-[9px] md:text-[10px] font-black text-[#d87c7c] uppercase mb-2 tracking-widest">PRIORITAS 1</h4>
               <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
@@ -575,7 +575,7 @@ const Dashboard = () => {
                 </table>
               </div>
             </div>
-            
+
             <div className="flex flex-col w-full max-w-full">
               <h4 className="text-[9px] md:text-[10px] font-black text-[#d87c7c] uppercase mb-2 tracking-widest">PRIORITAS 2</h4>
               <div className="w-full overflow-x-auto rounded-xl md:rounded-2xl border border-[#e8d8c8] bg-white shadow-sm scroll-smooth">
@@ -615,13 +615,13 @@ const Dashboard = () => {
               <span className="tracking-widest uppercase text-sm md:text-lg">PLAN GR NUSRA</span>
               <span className="text-[9px] text-[#2b2724] md:hidden bg-white px-2 py-1 rounded">SWIPE ➔</span>
             </div>
-            
+
             <div className="flex flex-row md:flex-row items-center gap-2 md:gap-4 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
               <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
                 <span className="text-[9px] md:text-[10px] font-black uppercase text-[#8f8278] tracking-widest bg-[#fcfaf7] px-2 md:px-3 py-1.5 rounded-full border border-[#e8d8c8]">THN:</span>
-                <select 
-                  value={selectedPlanGrYear} 
-                  onChange={(e) => setSelectedPlanGrYear(e.target.value)} 
+                <select
+                  value={selectedPlanGrYear}
+                  onChange={(e) => setSelectedPlanGrYear(e.target.value)}
                   className="appearance-none border border-[#e8d8c8] rounded-lg md:rounded-xl px-2 md:px-4 py-1.5 md:py-2 md:pr-8 text-[10px] md:text-xs font-bold text-[#2b2724] bg-white focus:ring-2 focus:ring-[#8aa7c2] uppercase shadow-sm cursor-pointer hover:bg-[#fcfaf7]"
                 >
                   <option value="ALL">SEMUA</option>
@@ -632,9 +632,9 @@ const Dashboard = () => {
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
                 <span className="text-[9px] md:text-[10px] font-black uppercase text-[#8f8278] tracking-widest bg-[#fcfaf7] px-2 md:px-3 py-1.5 rounded-full border border-[#e8d8c8]">BLN:</span>
-                <select 
-                  value={selectedMonth} 
-                  onChange={(e) => setSelectedMonth(e.target.value)} 
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
                   className="appearance-none border border-[#e8d8c8] rounded-lg md:rounded-xl px-2 md:px-4 py-1.5 md:py-2 md:pr-8 text-[10px] md:text-xs font-bold text-[#2b2724] bg-white focus:ring-2 focus:ring-[#8aa7c2] uppercase shadow-sm cursor-pointer hover:bg-[#fcfaf7]"
                 >
                   <option value="ALL">SEMUA</option>
@@ -764,7 +764,7 @@ const Dashboard = () => {
             </table>
           </div>
         </div>
-        
+
       </div>
 
     </div>
@@ -772,7 +772,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
-
